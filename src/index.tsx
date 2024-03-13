@@ -1,16 +1,57 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { Provider } from "react-redux";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import reportWebVitals from "./reportWebVitals";
+import { store } from "./redux/store";
+import { Paths } from "./paths";
+import Home from "./pages/home";
+import List from "./pages/list";
+import "./index.css";
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+import { ConfigProvider, theme } from "antd";
+import { createClient } from "@supabase/supabase-js";
+import Register from "./components/authentication/Register";
+import Login from "./components/authentication/Login";
+import { Database } from "./database/schema";
+
+export const supabase = createClient<Database>(
+  process.env.REACT_APP_SUPABASE_URL as string,
+  process.env.REACT_APP_SUPABASE_ANON_KEY as string
 );
+
+const router = createBrowserRouter([
+  {
+    path: Paths.home,
+    element: <Home />,
+  },
+  {
+    path: Paths.list,
+    element: <List />,
+  },
+  {
+    path: Paths.register,
+    element: <Register />,
+  },
+  {
+    path: Paths.login,
+    element: <Login />,
+  },
+]);
+
+const container = document.getElementById("root")!;
+const root = createRoot(container);
+
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <Provider store={store}>
+    <ConfigProvider
+      theme={{
+        algorithm: theme.darkAlgorithm,
+      }}
+    >
+      <RouterProvider router={router} />
+    </ConfigProvider>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

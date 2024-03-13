@@ -1,0 +1,14 @@
+.inputRow {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  .customIcon {
+    cursor: pointer;
+    position: absolute;
+    right: 22px;
+    &:hover {
+      transition: all 0.2s;
+      filter: brightness(70%);
+    }
+  }
+}

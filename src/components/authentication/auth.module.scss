@@ -1,0 +1,83 @@
+@import "../../rootStyles.css";
+
+.mainContainer {
+  //   background-color: antiquewhite;
+  height: 100%;
+  margin: 0;
+  display: grid;
+  place-items: center;
+
+  .registerCard {
+    position: fixed;
+    width: max-content;
+    height: max-content;
+    border: 1px solid var(--base-border-color);
+    background-color: rgba(0, 0, 0, 0.855);
+    border-radius: 10px;
+    .header {
+      padding: 10px;
+      border-bottom: 1px solid var(--base-border-color);
+    }
+    .block {
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      align-items: center;
+      // margin-block: 5px;
+
+      .customInput {
+        background-color: black;
+        color: white;
+        // margin-block: 5px;
+        border: 1px solid rgba(255, 255, 255, 0.443);
+        border-radius: 5px;
+        padding: 5px;
+        width: 100%;
+        &:hover {
+          transition: all 0.2s;
+          border: 1px solid var(--base-border-color);
+        }
+        &:required {
+          border: 1px solid rgb(234, 255, 0) !important;
+        }
+      }
+
+      .btnSaveBlock {
+        display: flex;
+        justify-content: center;
+        .btnSave {
+          cursor: pointer;
+          width: min-content;
+          padding: 5%;
+          margin-block: 5px;
+          background-color: black;
+          color: (var(--base-border-color));
+          border: none;
+          // border: 1px solid white;
+          // border-radius: 5px;
+          &:hover {
+            transition: all 0.2s;
+            filter: brightness(80%);
+          }
+        }
+      }
+
+      .error {
+        min-width: -webkit-fill-available;
+        width: min-content;
+        margin-block: 5px;
+        color: yellow;
+        font-size: 60%;
+      }
+      .warning {
+        cursor: pointer;
+        color: rgb(0, 208, 255);
+        font-size: 80%;
+        &:hover {
+          transition: all 0.2s;
+          filter: brightness(80%);
+        }
+      }
+    }
+  }
+}

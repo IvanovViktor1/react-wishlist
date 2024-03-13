@@ -1,0 +1,25 @@
+@import "../../rootStyles.css";
+
+.header {
+  // padding-inline: 10px;
+  z-index: 100;
+  padding-block: 5px;
+  position: sticky;
+  border-bottom: 1px solid var(--base-border-color);
+  background-color: black;
+  height: max-content;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  h2,
+  h4,
+  h5,
+  .btnOption {
+    cursor: pointer;
+    &:hover {
+      transition: all 0.3s;
+      filter: brightness(70%);
+    }
+  }
+}

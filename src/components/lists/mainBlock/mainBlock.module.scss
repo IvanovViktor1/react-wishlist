@@ -1,0 +1,46 @@
+.mainBlock {
+  //   background-color: rgb(28, 28, 28);
+  height: 100%;
+
+  width: 100%;
+
+  .headMainBlock {
+    padding: 10px;
+    width: 100%;
+    height: min-content;
+    border-bottom: 1px solid white;
+    display: flex;
+    justify-content: space-between;
+    .hBtn {
+      cursor: pointer;
+      &:hover {
+        transition: all 0.2s;
+        filter: brightness(75%);
+      }
+    }
+  }
+  .mainBlock {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .noSheets {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .pAddList {
+        font-size: 1.2rem;
+        cursor: pointer;
+        color: rgb(129, 129, 255);
+        &:hover {
+          transition: all 0.2s;
+          font-size: 1.7rem;
+          color: blue;
+        }
+      }
+    }
+  }
+}
