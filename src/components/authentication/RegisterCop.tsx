@@ -18,7 +18,7 @@ type IShippingFields = {
   confirmPassword: string;
 };
 
-const Register: FC = () => {
+const RegisterCop: FC = () => {
   const navigate = useNavigate();
   const [registerError, setRegisterError] = useState("");
 
@@ -51,19 +51,7 @@ const Register: FC = () => {
   const onSubmit: SubmitHandler<IShippingFields> = (dataForm) => {
     if (isValid) {
       try {
-        registerUserFromAuth(dataForm).then(() => {
-          if (queryFromAuth.status === QueryStatus.fulfilled) {
-          }
-
-          addNewUserData({
-            name: dataForm.name,
-            phone: dataForm.phone,
-            user_uuid: queryFromAuth.data?.user?.id,
-          } as TNewUser);
-
-          reset();
-          navigate(Paths.home);
-        });
+        registerUserFromAuth(dataForm);
 
         if (queryFromAuth.status === QueryStatus.pending) {
           setLoading(true);
@@ -73,12 +61,12 @@ const Register: FC = () => {
           setLoading(false);
           console.log("Проверка пройдена");
           console.log(queryFromAuth.data.user?.id);
-          // const newUser = {
-          //   name: dataForm.name,
-          //   phone: dataForm.phone,
-          //   user_uuid: queryFromAuth.data.user?.id,
-          // };
-          // addNewUserData(newUser as TNewUser);
+          const newUser = {
+            name: dataForm.name,
+            phone: dataForm.phone,
+            user_uuid: queryFromAuth.data.user?.id,
+          };
+          addNewUserData(newUser as TNewUser);
           console.log("После добавления в БД на клиенте");
 
           if (queryFromDB.status === QueryStatus.pending) {
@@ -86,10 +74,10 @@ const Register: FC = () => {
           }
 
           if (queryFromDB.status === QueryStatus.fulfilled) {
-            // setLoading(false);
-            // console.log("success");
-            // reset();
-            // navigate(Paths.home);
+            setLoading(false);
+            console.log("success");
+            reset();
+            navigate(Paths.home);
           }
           if (queryFromDB.status === QueryStatus.rejected) {
             setLoading(false);
@@ -115,7 +103,7 @@ const Register: FC = () => {
       <div className={styles.registerCard}>
         <div className={styles.header}>Регистрация</div>
         {loading ? <Loader /> : null}
-
+        {/* <Loader /> */}
         <form className={styles.block} onSubmit={handleSubmit(onSubmit)}>
           <CustomInput
             className={styles.customInput}
@@ -213,4 +201,4 @@ const Register: FC = () => {
   );
 };
 
-export default Register;
+export default RegisterCop;
