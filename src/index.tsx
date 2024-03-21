@@ -9,7 +9,6 @@ import List from "./pages/list";
 import "./index.css";
 import { ConfigProvider, theme } from "antd";
 import { createClient } from "@supabase/supabase-js";
-import Register from "./components/authentication/Register";
 import Login from "./components/authentication/Login";
 import { Database } from "./database/schema";
 import { setupStore } from "./store/store";
@@ -19,10 +18,7 @@ export const supabase = createClient<Database>(
   process.env.REACT_APP_SUPABASE_URL as string,
   process.env.REACT_APP_SUPABASE_ANON_KEY as string
 );
-
-const store = setupStore();
-
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
   {
     path: Paths.home,
     element: <Home />,
@@ -40,6 +36,8 @@ const router = createBrowserRouter([
     element: <Login />,
   },
 ]);
+
+const store = setupStore();
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);

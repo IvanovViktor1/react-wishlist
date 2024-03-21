@@ -3,13 +3,12 @@ import { useNavigate } from "react-router-dom";
 import styles from "./auth.module.scss";
 import CustomInput from "../customInput";
 import { useForm, SubmitHandler } from "react-hook-form";
-
 import { Paths } from "../../paths";
-
-import { useSelector } from "react-redux";
-
 import { AuthError } from "@supabase/supabase-js";
-import { supabase } from "../..";
+import { useAppDispatch } from "../../hooks/redux";
+import { newSessionInfo } from "../../store/reducers/userSlice";
+import { sessionApi } from "../../services/SessionService";
+import Loader from "../loader";
 
 interface Ilogin {
   email: string;
@@ -18,6 +17,7 @@ interface Ilogin {
 
 const Login: FC = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [error, setError] = useState<AuthError | string | number | null>(null);
   const {
     register,
@@ -32,21 +32,11 @@ const Login: FC = () => {
     mode: "onChange",
   });
 
+  const [signIn, { isLoading }] = sessionApi.useSignInMutation();
   const onSubmit: SubmitHandler<Ilogin> = async (dataForm) => {
     if (isValid) {
       try {
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email: dataForm.email,
-          password: dataForm.password,
-        });
-
-        if (data) {
-          return data.user;
-        }
-
-        if (error) {
-          console.log(error);
-        }
+        signIn(dataForm);
         navigate(Paths.home);
       } catch (error) {
         console.log(error);
@@ -56,6 +46,7 @@ const Login: FC = () => {
 
   return (
     <div className={styles.mainContainer}>
+      {isLoading ? <Loader /> : null}
       <div className={styles.registerCard}>
         <div className={styles.header}>Войдите в систему</div>
         <form className={styles.block} onSubmit={handleSubmit(onSubmit)}>

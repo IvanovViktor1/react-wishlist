@@ -1,75 +1,69 @@
-// import React, { FC, useEffect } from "react";
-// import styles from "./mainBlock.module.scss";
-// import { myBirthdayWishList } from "../../../Lists";
-// import { List } from "antd";
-// import ListItems from "../listItems";
-// import { useAppDispatch } from "../../../redux/store";
-// import { addList, getLists } from "../../../redux/lists/asyncActions";
-// import { useSelector } from "react-redux";
-// import { listsState } from "../../../redux/lists/selectors";
+import React, { FC } from "react";
+import styles from "./mainBlock.module.scss";
+import { List } from "antd";
+import WishList from "../wishList";
+import { useSelector } from "react-redux";
+import { supabase } from "../../..";
+import { wishlistApi } from "../../../services/ListService";
+import { useAppSelector } from "../../../hooks/redux";
+import Loader from "../../loader";
 
-// export type TListItem = {
-//   id: number;
-//   title: string;
-//   text: string | null;
-//   price: string | null;
-//   link: string | null;
-//   hidden: boolean;
-//   id_list: number | null;
-// };
+const MainBlock: FC = () => {
+  const {
+    data: lists,
+    isError,
+    isLoading,
+    refetch,
+  } = wishlistApi.useGetAllListsQuery();
 
-// export type TList = {
-//   id: number;
-//   name: string;
-//   description: string | null;
-//   items: TListItem[] | null;
-//   user_uuid: string;
-//   hidden: boolean;
-// };
+  const currentUser = useAppSelector((state) => state.userReducer).session
+    ?.user;
 
-// const MainBlock: FC = () => {
-//   const dispatch = useAppDispatch();
+  const [
+    addList,
+    { data, isError: isErrorAddList, isLoading: isLoadingAddList, isSuccess },
+  ] = wishlistApi.useAddNewListMutation();
 
-//   const lists = useSelector(listsState);
-//   useEffect(() => {
-//     dispatch(getLists());
-//   }, []);
+  const addNewList = () => {
+    if (currentUser) {
+      addList({
+        description: "Описание",
+        hidden: false,
+        name: "Наименование",
+        user_uuid: currentUser.id,
+      });
+      if (!isLoadingAddList && isSuccess) {
+        refetch();
+        console.log("refetch");
+      }
+    }
+  };
 
-//   const addNewList = () => {
-//     dispatch(addList());
-//   };
+  return (
+    <div className={styles.mainBlock}>
+      {isLoading ? <Loader /> : null}
+      <div className={styles.headMainBlock}>
+        <div className={styles.hBtn} onClick={addNewList}>
+          Создать
+        </div>
+        <div className={styles.hBtn}>Последний измененный</div>
+        <div className={styles.hBtn}>Листы друзей</div>
+      </div>
 
-//   return (
-//     <div className={styles.mainBlock}>
-//       <div className={styles.headMainBlock}>
-//         <div className={styles.hBtn} onClick={addNewList}>
-//           Создать
-//         </div>
-//         <div className={styles.hBtn}>Последний измененный</div>
-//         <div className={styles.hBtn}>Листы друзей</div>
-//       </div>
-
-//       <div className={styles.mainBlock}>
-//         {lists && lists.length ? (
-//           lists.map((list, index) => <ListItems data={list} key={index} />)
-//         ) : (
-//           <div className={styles.noSheets}>
-//             <div> У Вас еще нет листов</div>{" "}
-//             <div className={styles.pAddList} onClick={addNewList}>
-//               Хотите создать?
-//             </div>
-//           </div>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default MainBlock;
-import React from "react";
-
-const MainBlock = () => {
-  return <div>12</div>;
+      <div className={styles.mainBlock}>
+        {lists && lists.length ? (
+          lists.map((list, index) => <WishList data={list} key={index} />)
+        ) : (
+          <div className={styles.noSheets}>
+            <div> У Вас еще нет листов</div>{" "}
+            <div className={styles.pAddList} onClick={addNewList}>
+              Хотите создать?
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default MainBlock;

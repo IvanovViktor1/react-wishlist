@@ -1,29 +1,25 @@
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../auth.module.scss";
 import { useForm, SubmitHandler } from "react-hook-form";
 
-import { FetchBaseQueryError, QueryStatus } from "@reduxjs/toolkit/query";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { SerializedError } from "@reduxjs/toolkit";
 import { sessionApi } from "../../../services/SessionService";
-import { TNewUser, userApi } from "../../../services/UserService";
 import { Paths } from "../../../paths";
 import Loader from "../../loader";
 import CustomInput from "../../customInput";
 import { supabase } from "../../..";
-import { User } from "@supabase/supabase-js";
-
-interface IFragmentOne {
-  next: () => void;
-}
 
 type IShippingFields = {
+  phone: number;
+  name: string;
   email: string;
   password: string;
   confirmPassword: string;
 };
 
-const FragmentOne: FC<IFragmentOne> = ({ next }) => {
+const CustomRegister: FC = () => {
   const navigate = useNavigate();
   const [registerError, setRegisterError] = useState<string>("");
 
@@ -39,43 +35,19 @@ const FragmentOne: FC<IFragmentOne> = ({ next }) => {
   } = useForm<IShippingFields>({
     mode: "onChange",
   });
-
   const watchPassword = watch("password");
 
-  const [registerUserFromAuth, { data, isError, isLoading, error }] =
-    sessionApi.useRegisterUserFomAuthMutation();
-
-  const handleError = (
-    error: FetchBaseQueryError | SerializedError | undefined
-  ) => {
-    setRegisterError(JSON.stringify(error));
-  };
-
-  const signInUser = async (email: string, password: string) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    if (error) {
-      console.error(error);
-    }
-    return data;
-  };
+  const [customRegister, { data, isLoading, isSuccess }] =
+    sessionApi.useCustomRegisterMutation();
 
   const onSubmit: SubmitHandler<IShippingFields> = (dataForm) => {
     if (isValid) {
       try {
-        registerUserFromAuth(dataForm);
-
-        // if (data) {
-        signInUser(dataForm.email, dataForm.confirmPassword);
-        next();
-        // }
-        // reset();
-        // next();
-      } catch (err) {
-        handleError(error);
-        console.error(err);
+        customRegister(dataForm);
+        reset();
+        navigate(Paths.home);
+      } catch (error) {
+        console.log(error);
       }
     }
   };
@@ -135,8 +107,35 @@ const FragmentOne: FC<IFragmentOne> = ({ next }) => {
             <p className={styles.error}>{errors.confirmPassword?.message}</p>
           ) : null}
 
+          <CustomInput
+            className={styles.customInput}
+            placeholder="имя"
+            {...register("name", { required: "Поле Имя обязательно!" })}
+          />
+
+          {errors ? (
+            <p className={styles.error}>{errors.name?.message}</p>
+          ) : null}
+
+          <CustomInput
+            className={styles.customInput}
+            type="tel"
+            placeholder="телефон"
+            {...register("phone", {
+              required: "Поле Телефон обязательно!",
+              pattern: {
+                value: /\b\w{11}\b/g,
+                message: "Пожалуйста введите корректный номер телефона!",
+              },
+            })}
+          />
+
           <div className={styles.btnSaveBlock}>
-            <input type="submit" className={styles.btnSave} value={"Далее"} />
+            <input
+              type="submit"
+              className={styles.btnSave}
+              value={"Зарегистрироваться"}
+            />
           </div>
           {registerError ? (
             <p className={styles.error}>{registerError}</p>
@@ -155,4 +154,4 @@ const FragmentOne: FC<IFragmentOne> = ({ next }) => {
   );
 };
 
-export default FragmentOne;
+export default CustomRegister;

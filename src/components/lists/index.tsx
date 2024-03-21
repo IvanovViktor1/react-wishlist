@@ -5,7 +5,7 @@ import MainBlock from "./mainBlock/mainBlock";
 const Lists: FC = () => {
   return (
     <div className={styles.mainLists}>
-      <FilterList />
+      {/* <FilterList /> */}
       <MainBlock />
     </div>
   );

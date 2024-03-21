@@ -1,12 +1,14 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import userReducer from "./reducers/userSlice";
-import { userApi } from "../services/UserService";
 import { sessionApi } from "../services/SessionService";
+import { wishlistApi } from "../services/ListService";
+import { wishApi } from "../services/WishService";
 
 export const rootReducer = combineReducers({
   userReducer,
-  [userApi.reducerPath]: userApi.reducer,
   [sessionApi.reducerPath]: sessionApi.reducer,
+  [wishlistApi.reducerPath]: wishlistApi.reducer,
+  [wishApi.reducerPath]: wishApi.reducer,
 });
 
 export const setupStore = () => {
@@ -14,8 +16,9 @@ export const setupStore = () => {
     reducer: rootReducer,
     middleware: (getDefauleMiddleware) =>
       getDefauleMiddleware()
-        .concat(userApi.middleware)
-        .concat(sessionApi.middleware),
+        .concat(sessionApi.middleware)
+        .concat(wishlistApi.middleware)
+        .concat(wishApi.middleware),
   });
 };
 
