@@ -1,7 +1,18 @@
-import React from "react";
+import React, { FC, ReactNode } from "react";
+import styles from "./customButton.module.scss";
 
-const CustomButton = () => {
-  return <div>Конпка</div>;
+interface ICustomButton {
+  text: string;
+  icon?: ReactNode;
+}
+
+const CustomButton: FC<ICustomButton> = ({ text, icon }) => {
+  return (
+    <div className={styles.button}>
+      <p className={styles.btnText}>{text}</p>
+      <div className={styles.icon}>{icon}</div>
+    </div>
+  );
 };
 
 export default CustomButton;

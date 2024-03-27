@@ -1,13 +1,15 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import styles from "./lists.module.scss";
-import FilterList from "./filter";
+import FilterBlock from "./filter";
 import MainBlock from "./mainBlock/mainBlock";
+import { Layout } from "../layout";
 const Lists: FC = () => {
   return (
-    <div className={styles.mainLists}>
-      {/* <FilterList /> */}
-      <MainBlock />
-    </div>
+    <Layout>
+      <div className={styles.mainLists}>
+        <MainBlock />
+      </div>
+    </Layout>
   );
 };
 

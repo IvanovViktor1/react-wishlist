@@ -110,7 +110,7 @@ export type Database = {
           id: number;
           id_list: number;
           link: string | null;
-          price: string | null;
+          price: number | null;
           title: string;
         };
         Insert: {
@@ -119,7 +119,7 @@ export type Database = {
           id?: number;
           id_list: number;
           link?: string | null;
-          price?: string | null;
+          price?: number | null;
           title: string;
         };
         Update: {
@@ -128,7 +128,7 @@ export type Database = {
           id?: number;
           id_list?: number;
           link?: string | null;
-          price?: string | null;
+          price?: number | null;
           title?: string;
         };
         Relationships: [

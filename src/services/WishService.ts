@@ -8,7 +8,7 @@ export type TWish = {
   id: number;
   id_list: number;
   link: string | null;
-  price: string | null;
+  price: number | null;
   title: string;
 };
 
@@ -17,7 +17,7 @@ export type TNewWish = {
   hidden: boolean;
   id_list: number;
   link: string | null;
-  price: string | null;
+  price: number | null;
   title: string;
 };
 

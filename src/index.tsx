@@ -13,6 +13,8 @@ import Login from "./components/authentication/Login";
 import { Database } from "./database/schema";
 import { setupStore } from "./store/store";
 import RegisterFragments from "./components/authentication/registerFragments";
+import Frends from "./pages/frends";
+import Lists from "./components/lists";
 
 export const supabase = createClient<Database>(
   process.env.REACT_APP_SUPABASE_URL as string,
@@ -24,8 +26,8 @@ export const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: Paths.list,
-    element: <List />,
+    path: Paths.lists,
+    element: <Lists />,
   },
   {
     path: Paths.register,
@@ -34,6 +36,10 @@ export const router = createBrowserRouter([
   {
     path: Paths.login,
     element: <Login />,
+  },
+  {
+    path: Paths.frends,
+    element: <Frends />,
   },
 ]);
 

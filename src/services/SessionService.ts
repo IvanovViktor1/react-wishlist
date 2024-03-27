@@ -9,7 +9,6 @@ export type TUserMetadata = {
   phone: number;
 };
 
-export type TNewUser = Omit<IUser, "id">;
 export type TAuthData = {
   email: string;
   password: string;
@@ -35,7 +34,7 @@ export const sessionApi = createApi({
   baseQuery: fetchBaseQuery(),
   endpoints: (builder) => ({
     signIn: builder.mutation({
-      queryFn: async (userData: TAuthData): Promise<any> => {
+      queryFn: async (userData: TAuthData) => {
         const { data, error } = await supabase.auth.signInWithPassword({
           email: userData.email,
           password: userData.password,
@@ -46,27 +45,22 @@ export const sessionApi = createApi({
         return { data };
       },
     }),
-
-    getUserSession: builder.mutation<Session, void>({
-      queryFn: async (): Promise<any> => {
+    getUserSession: builder.query<Session, void>({
+      queryFn: async (): Promise<{ data: Session } | any> => {
         const { data, error } = await supabase.auth.getSession();
+
+        const session = data.session;
 
         if (error) {
           throw { error };
         }
-
-        return { data };
-        // if (data.session) {
-        //   const session = data.session;
-        //   console.log(session);
-        //   return { session };
-        // } else {
-        //   return { error: { message: "No session" } };
-        // }
+        if (session) {
+          return { data: session };
+        }
       },
     }),
     customRegister: builder.mutation<IResponseRegister, TCustomRegister>({
-      queryFn: async (newUser): Promise<any> => {
+      queryFn: async (newUser): Promise<{ data: IResponseRegister } | any> => {
         const { data, error } = await supabase.auth.signUp({
           email: newUser.email,
           password: newUser.password,
@@ -83,14 +77,6 @@ export const sessionApi = createApi({
         } catch (error) {
           throw { error };
         }
-        // if (data.user) {
-        //   return { data };
-        // } else {
-        //   console.log(error);
-        //   if (error) {
-        //     throw { error };
-        //   }
-        // }
       },
     }),
   }),

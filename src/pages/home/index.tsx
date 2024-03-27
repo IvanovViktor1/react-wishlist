@@ -5,9 +5,7 @@ import styles from "./home.module.scss";
 const Home = () => {
   return (
     <Layout>
-      <div className={styles.home}>
-        <Lists />
-      </div>
+      <div className={styles.home}>Обновления</div>
     </Layout>
   );
 };

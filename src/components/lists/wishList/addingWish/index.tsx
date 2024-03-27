@@ -1,19 +1,19 @@
 import React, { FC, useState, forwardRef } from "react";
 import styles from "./settingsList.module.scss";
-import CustomInput from "../../customInput";
-import CustomButton from "../../customButton";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-import Loader from "../../loader";
-import { TList, wishlistApi } from "../../../services/ListService";
+import { TWish, wishApi } from "../../../../services/WishService";
+import Loader from "../../../loader";
+import CustomInput from "../../../customInput";
+import CustomCheckbox from "../../../customCheckbox";
 
 type ISettingsListProps = {
-  data: TList;
+  idList: number;
   handleClose: () => void;
 };
 
-export const SettingsList = forwardRef<HTMLDivElement, ISettingsListProps>(
-  ({ data, handleClose }, ref) => {
+export const AddingWishForm = forwardRef<HTMLDivElement, ISettingsListProps>(
+  ({ handleClose, idList }, ref) => {
     const {
       register,
       handleSubmit,
@@ -23,33 +23,29 @@ export const SettingsList = forwardRef<HTMLDivElement, ISettingsListProps>(
       getValues, //не обязательно
       getFieldState, //не обязательноб
       setValue,
-    } = useForm<TList>({
+    } = useForm<TWish>({
       mode: "onChange",
-      values: data,
     });
 
     const [loading, setLoading] = useState(false);
 
-    const [editList, { isError, error: addListError, isSuccess, isLoading }] =
-      wishlistApi.useEditListMutation();
+    const [addWish] = wishApi.useAddNewWishMutation();
 
-    const onSubmit: SubmitHandler<TList> = async (dataForm) => {
+    const onSubmit: SubmitHandler<TWish> = async (dataForm) => {
       if (isValid) {
         try {
-          await editList(dataForm);
-
-          while (isLoading) {
-            setLoading(true);
-          }
-          if (!isError && !isLoading) {
-            console.log("Success");
+          addWish({
+            description: dataForm.description,
+            hidden: false,
+            id_list: idList,
+            link: dataForm.link,
+            price: dataForm.price,
+            title: dataForm.title,
+          }).then(() => {
             handleClose();
-          }
-        } catch (err) {
-          console.log(err);
-          if (isError) {
-            console.log(addListError);
-          }
+          });
+        } catch (error) {
+          console.log(error);
         }
       }
     };
@@ -68,12 +64,12 @@ export const SettingsList = forwardRef<HTMLDivElement, ISettingsListProps>(
           <div className={styles.inputRows}>
             <CustomInput
               type="text"
-              placeholder="Наименование"
+              placeholder="Желание"
               className={styles.input}
-              {...register("name", { required: "Поле Имя обязательно!" })}
+              {...register("title", { required: "Поле не может быть пустым" })}
             />
             {errors ? (
-              <p className={styles.error}>{errors.name?.message}</p>
+              <p className={styles.error}>{errors.title?.message}</p>
             ) : null}
 
             <CustomInput
@@ -82,12 +78,25 @@ export const SettingsList = forwardRef<HTMLDivElement, ISettingsListProps>(
               className={styles.input}
               {...register("description")}
             />
+            <CustomInput
+              type="text"
+              placeholder="Cсылка на товар"
+              className={styles.input}
+              {...register("link")}
+            />
+            <CustomInput
+              type="number"
+              placeholder="Примерная стоимость"
+              className={styles.input}
+              {...register("price")}
+            />
 
             <CustomInput
               className={styles.input}
               type="checkbox"
               {...register("hidden")}
             />
+            <CustomCheckbox type="checkbox" />
           </div>
           <div className={styles.btnRow}>
             <input

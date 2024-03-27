@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect } from "react";
+import React, { useRef, FC, useEffect, useState } from "react";
 import styles from "./options.module.scss";
 import { Link } from "react-router-dom";
 import { Paths } from "../../paths";
@@ -7,30 +7,53 @@ import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import { exitUser } from "../../store/reducers/userSlice";
 import { sessionApi } from "../../services/SessionService";
 
-interface Props {
-  visible: boolean;
+interface IDrawer {
+  open: boolean;
+  onClose: () => void;
 }
 
-export type Ref = HTMLDivElement;
-
-const OptionsDrawer = forwardRef<Ref, Props>(({ visible }, myref) => {
+const OptionsDrawer: FC<IDrawer> = ({ open, onClose }) => {
   const dispatch = useAppDispatch();
   const exit = async () => {
     dispatch(exitUser());
     await supabase.auth.signOut();
   };
 
+  const outsideRef = useRef<HTMLDivElement>(null);
+
   const currentUser = useAppSelector((state) => state.userReducer).session
     ?.user;
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      outsideRef.current &&
+      !outsideRef.current.contains(event.target as Node)
+    ) {
+      onClose();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside, true);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, [open]);
 
   return (
-    <div className={styles.window} ref={myref}>
-      <div className={styles.block} style={{ top: visible ? "0" : "-500px" }}>
+    <div className={styles.window}>
+      <div
+        className={styles.block}
+        ref={outsideRef}
+        style={{ top: open ? "0" : "-500px" }}
+      >
         <div className={styles.head}>
-          <h4>{"asd"}</h4>
+          <h4>{currentUser?.user_metadata.name}</h4>
         </div>
-        <Link to={Paths.list}>
+        <Link to={Paths.lists}>
           <div className={styles.btn}>Листы</div>
+        </Link>
+        <Link to={Paths.frends}>
+          <div className={styles.btn}>Друзья</div>
         </Link>
         <div className={styles.btn}>Настройки профиля</div>
         {currentUser ? (
@@ -50,6 +73,6 @@ const OptionsDrawer = forwardRef<Ref, Props>(({ visible }, myref) => {
       </div>
     </div>
   );
-});
+};
 
 export default OptionsDrawer;

@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery, retry } from "@reduxjs/toolkit/query/react";
 import { supabase } from "../index";
 import { IUser } from "../models/IUser";
 
@@ -17,12 +17,14 @@ export type TNewList = {
   name: string;
   user_uuid: string;
 };
+const baseQuery = fetchBaseQuery({
+  baseUrl: "https://vxrcktkkwrusbwueauis.supabase.co",
+});
+const baseQueryWithRetry = retry(baseQuery, { maxRetries: 5 });
 
 export const wishlistApi = createApi({
   reducerPath: "wishlistApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: "https://vxrcktkkwrusbwueauis.supabase.co",
-  }),
+  baseQuery: baseQueryWithRetry,
   endpoints: (builder) => ({
     getAllLists: builder.query<TList[], void>({
       queryFn: async () => {
@@ -37,20 +39,45 @@ export const wishlistApi = createApi({
         return { data };
       },
     }),
+
+    //________________________________________________________________
+    //________________________________________________________________
+    //________________________________________________________________
+    //________________________________________________________________
+    //________________________________________________________________
+    //________________________________________________________________
     getListsByUserId: builder.query<TList[] | null, string>({
       queryFn: async (user_uuid: string) => {
-        const { data, error } = await supabase
-          .from("lists")
-          .select("*")
-          .eq("user_uuid", user_uuid)
-          .order("id", { ascending: true });
-        if (error) {
-          throw { error };
-        }
+        let retries = 5;
+        while (retries > 0) {
+          if (typeof user_uuid !== "string") {
+            console.warn("user_uuid is not a string, retrying...");
+            await new Promise((resolve, reject) => {
+              setTimeout(resolve, 1000);
+            });
+            retries--;
+            continue;
+          }
 
-        return { data };
+          const { data, error } = await supabase
+            .from("lists")
+            .select("*")
+            .eq("user_uuid", user_uuid)
+            .order("id", { ascending: true });
+          if (error) {
+            console.error(error);
+            throw { error };
+          }
+
+          return { data };
+        }
+        throw Error("Failed to get lists after 3 retries");
       },
     }),
+    //________________________________________________________________
+    //________________________________________________________________
+    //________________________________________________________________
+    //________________________________________________________________
     getListsById: builder.query<TList[] | null, number>({
       queryFn: async (id: number) => {
         const { data, error } = await supabase

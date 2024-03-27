@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import styles from "./mainBlock.module.scss";
 import { List } from "antd";
 import WishList from "../wishList";
@@ -7,22 +7,25 @@ import { supabase } from "../../..";
 import { wishlistApi } from "../../../services/ListService";
 import { useAppSelector } from "../../../hooks/redux";
 import Loader from "../../loader";
+import { QueryStatus } from "@reduxjs/toolkit/query";
+import FilterBlock from "../filter";
 
 const MainBlock: FC = () => {
-  const {
-    data: lists,
-    isError,
-    isLoading,
-    refetch,
-  } = wishlistApi.useGetAllListsQuery();
-
+  const [openFilter, setOpenFilter] = useState(false);
   const currentUser = useAppSelector((state) => state.userReducer).session
     ?.user;
 
   const [
     addList,
-    { data, isError: isErrorAddList, isLoading: isLoadingAddList, isSuccess },
+    { data, isError: isErrorAddList, isLoading: isLoadingAddList, status },
   ] = wishlistApi.useAddNewListMutation();
+
+  const {
+    data: lists,
+    isError,
+    isLoading,
+    refetch,
+  } = wishlistApi.useGetListsByUserIdQuery(currentUser?.id as string);
 
   const addNewList = () => {
     if (currentUser) {
@@ -31,39 +34,56 @@ const MainBlock: FC = () => {
         hidden: false,
         name: "Наименование",
         user_uuid: currentUser.id,
-      });
-      if (!isLoadingAddList && isSuccess) {
+      }).then(() => {
         refetch();
         console.log("refetch");
-      }
+      });
     }
   };
 
-  return (
-    <div className={styles.mainBlock}>
-      {isLoading ? <Loader /> : null}
-      <div className={styles.headMainBlock}>
-        <div className={styles.hBtn} onClick={addNewList}>
-          Создать
-        </div>
-        <div className={styles.hBtn}>Последний измененный</div>
-        <div className={styles.hBtn}>Листы друзей</div>
-      </div>
-
+  if (currentUser && typeof currentUser.id === "string") {
+    return (
       <div className={styles.mainBlock}>
-        {lists && lists.length ? (
-          lists.map((list, index) => <WishList data={list} key={index} />)
-        ) : (
-          <div className={styles.noSheets}>
-            <div> У Вас еще нет листов</div>{" "}
-            <div className={styles.pAddList} onClick={addNewList}>
-              Хотите создать?
-            </div>
+        {isLoading ? <Loader /> : null}
+        {isLoadingAddList ? <Loader /> : null}
+        <div className={styles.headMainBlock}>
+          <div
+            className={styles.hBtn}
+            onClick={() => setOpenFilter(!openFilter)}
+          >
+            Фильтрация
           </div>
-        )}
+          <div className={styles.hBtn} onClick={addNewList}>
+            Создать
+          </div>
+          <div className={styles.hBtn} onClick={() => refetch()}>
+            Обновить
+          </div>
+        </div>
+        <div className={styles.content}>
+          <FilterBlock
+            open={openFilter}
+            onClose={() => setOpenFilter(!openFilter)}
+          />
+
+          <div className={styles.mainBlock}>
+            {lists && lists.length ? (
+              lists.map((list, index) => <WishList data={list} key={index} />)
+            ) : (
+              <div className={styles.noSheets}>
+                <div> У Вас еще нет листов</div>{" "}
+                <div className={styles.pAddList} onClick={addNewList}>
+                  Хотите создать?
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return <Loader />;
+  }
 };
 
 export default MainBlock;

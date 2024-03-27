@@ -15,33 +15,10 @@ const Header: FC = () => {
   };
   const ref = useRef<HTMLDivElement | null>(null);
 
-  const [getSession, { data, isLoading }] =
-    sessionApi.useGetUserSessionMutation();
+  const { data: queryData, isLoading } = sessionApi.useGetUserSessionQuery();
 
   const currentUser = useAppSelector((state) => state.userReducer).session
     ?.user;
-
-  const handleClickOutside = (event: MouseEvent) => {
-    if (ref.current && !event.composedPath().includes(ref.current)) {
-      setDrawerVisible(false);
-      console.log("нажатие");
-      if (currentUser) {
-        console.log(currentUser.email as string);
-      }
-    }
-  };
-
-  useEffect(() => {
-    getSession();
-
-    document.addEventListener("click", handleClickOutside, true);
-    return () => {
-      document.removeEventListener("click", handleClickOutside, true);
-    };
-  }, []);
-
-  // const { currentUser } = useAppSelector((state) => state.userReducer);
-  // const currentUser = data
 
   return (
     <div>
@@ -49,14 +26,17 @@ const Header: FC = () => {
         {isLoading ? <Loader /> : null}
         <Link to={Paths.home}>
           <h2>Whishlist</h2>
-          <h4>{currentUser?.email}</h4>
+          <h4>{currentUser?.user_metadata.name}</h4>
         </Link>
 
         <div className={styles.btnOption} onClick={visibleDrawer}>
           {drawerVisible ? <UpCircleOutlined /> : <DownCircleOutlined />}
         </div>
       </header>
-      <OptionsDrawer visible={drawerVisible} ref={ref} />
+      <OptionsDrawer
+        open={drawerVisible}
+        onClose={() => setDrawerVisible(false)}
+      />
     </div>
   );
 };

@@ -1,0 +1,25 @@
+@import "../../rootStyles.css";
+
+.button {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: var(--base-border-color);
+
+  .btnText {
+    background-color: var(--base-border-color);
+  }
+
+  .icon {
+    margin-inline: 10px;
+    color: white;
+  }
+
+  &:hover {
+    transition: all 0.1s ease-in-out;
+    filter: brightness(85%);
+  }
+}
