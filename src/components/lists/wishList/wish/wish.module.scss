@@ -1,0 +1,142 @@
+@import "../../../../rootStyles.css";
+
+.listItem {
+  position: relative;
+  width: 200px;
+  height: max-content;
+  display: flex;
+  background-color: white;
+  border-radius: 5px;
+  flex-direction: column;
+  align-items: center;
+  transition: height 0.7s;
+  @media only screen and (max-width: 400px) {
+    padding: 0;
+    width: 200px;
+    // height: 200px;
+  }
+
+  .imageBlock {
+    width: 200px;
+    height: 170px;
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.245);
+    .imgIcon {
+      padding: 2px;
+      width: inherit;
+      height: inherit;
+    }
+  }
+
+  .infoColumn {
+    display: flex;
+    color: black;
+    padding-inline: 10px;
+    width: inherit;
+    height: inherit;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    margin-bottom: 10px;
+    @media only screen and (max-width: 400px) {
+      padding-inline: 5px;
+      width: 98%;
+    }
+
+    .title {
+      font-size: 1.5rem;
+      font-weight: 400;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.245);
+    }
+
+    .otherInfo {
+      padding-inline: 10px;
+      background-color: #ffffff;
+      height: 0;
+      transition: height 0.7s;
+      overflow: hidden;
+    }
+
+    .settingsBlock {
+      margin-top: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-direction: column;
+
+      .warningHead {
+        font-size: smaller;
+        background-color: transparent;
+        color: black;
+      }
+
+      .buttons {
+        display: flex;
+        .btnWishUnvisible,
+        .btnWishVisible,
+        .btnSetting,
+        .btnOpenInfo,
+        .btnRemove,
+        .btnOpenOther {
+          margin-inline: 3px;
+          width: 2rem;
+          height: 1.4rem;
+          border: 1px solid black;
+          padding: 5px;
+          border-radius: 5px;
+          display: flex;
+          justify-content: center;
+          cursor: pointer;
+          &:hover {
+            transition: all 0.2s;
+            color: white;
+            border-color: transparent;
+          }
+        }
+
+        .btnWishVisible {
+          color: rgb(18, 126, 117);
+          &:hover {
+            background-color: rgb(18, 126, 117);
+          }
+        }
+        .btnWishUnvisible {
+          background-color: rgb(18, 126, 117);
+          color: white;
+          &:hover {
+            background-color: white;
+            color: rgb(18, 126, 117);
+            border: 1px solid black;
+          }
+        }
+
+        .btnSetting {
+          color: var(--settingsNeditNcolor);
+          &:hover {
+            background-color: var(--settingsNeditNcolor);
+          }
+        }
+
+        .btnOpenInfo {
+          color: var(--base-border-color);
+          &:hover {
+            background-color: var(--base-border-color);
+          }
+        }
+
+        .btnRemove {
+          color: var(--removeNclose-color);
+          &:hover {
+            background-color: var(--removeNclose-color);
+          }
+        }
+        .btnOpenOther {
+          color: black;
+          &:hover {
+            background-color: black;
+          }
+        }
+      }
+    }
+  }
+}

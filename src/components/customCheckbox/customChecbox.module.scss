@@ -1,0 +1,56 @@
+@import "../../rootStyles.css";
+
+.checkbox {
+  position: relative;
+  // margin-left: 10%;
+  width: 3rem;
+  height: 2rem;
+  border: 1px solid black;
+  /* padding: 5px; */
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--removeNclose-color);
+  appearance: none;
+  aspect-ratio: 2;
+
+  &::before {
+    content: "";
+    position: absolute;
+    height: 55%;
+    width: 30%;
+    aspect-ratio: 1;
+    top: 50%;
+    left: 27%;
+    transform: translate(-50%, -50%);
+    background-color: var(--base-border-color);
+    border-radius: 3px;
+    transition: left 0.5s;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% + 0.25em);
+    height: calc(100% + 0.25em);
+  }
+
+  &:checked {
+    background-color: var(--base-border-color);
+    &::before {
+      background-color: white;
+      left: 72%;
+    }
+  }
+  &:hover {
+    background-color: var(--base-border-color);
+    &::before {
+      filter: brightness(90%);
+      background-color: white;
+    }
+  }
+}

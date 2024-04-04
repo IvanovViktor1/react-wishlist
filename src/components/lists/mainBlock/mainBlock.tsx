@@ -1,68 +1,98 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useState } from "react";
 import styles from "./mainBlock.module.scss";
-import { myBirthdayWishList } from "../../../Lists";
 import { List } from "antd";
-import ListItems from "../listItems";
-import { useAppDispatch } from "../../../redux/store";
-import { addList, getLists } from "../../../redux/lists/asyncActions";
+import WishList from "../wishList";
 import { useSelector } from "react-redux";
-import { listsState } from "../../../redux/lists/selectors";
-
-export type TListItem = {
-  id: number;
-  title: string;
-  text: string | null;
-  price: string | null;
-  link: string | null;
-  hidden: boolean;
-  id_list: number | null;
-};
-
-export type TList = {
-  id: number;
-  name: string;
-  description: string | null;
-  items: TListItem[] | null;
-  user_uuid: string;
-  hidden: boolean;
-};
+import { supabase } from "../../..";
+import { wishlistApi } from "../../../services/ListService";
+import { useAppSelector } from "../../../hooks/redux";
+import Loader from "../../loader";
+import { QueryStatus } from "@reduxjs/toolkit/query";
+import FilterBlock from "../filter";
+import { sessionApi } from "../../../services/SessionService";
 
 const MainBlock: FC = () => {
-  const dispatch = useAppDispatch();
+  const [openFilter, setOpenFilter] = useState(false);
+  const currentUser = useAppSelector((state) => state.userReducer).session
+    ?.user;
 
-  const lists = useSelector(listsState);
-  useEffect(() => {
-    dispatch(getLists());
-  }, []);
+  const [
+    addList,
+    { data, isError: isErrorAddList, isLoading: isLoadingAddList, status },
+  ] = wishlistApi.useAddNewListMutation();
+
+  const { data: userInfo } = sessionApi.useGetUserInfoByUuidQuery(
+    currentUser?.id as string
+  );
+
+  const {
+    data: lists,
+    isError,
+    isLoading,
+    refetch,
+  } = wishlistApi.useGetListsByUserIdQuery(userInfo?.id as number);
 
   const addNewList = () => {
-    dispatch(addList());
+    if (currentUser && userInfo) {
+      addList({
+        // description: "Описание",
+        // hidden: false,
+        // name: "Наименование",
+        // user_id: currentUser.id,
+        description: "Описание",
+        hidden: false,
+        name: "Наименование",
+        user_id: userInfo.id,
+      }).then(() => {
+        refetch();
+        console.log("refetch");
+      });
+    }
   };
 
-  return (
-    <div className={styles.mainBlock}>
-      <div className={styles.headMainBlock}>
-        <div className={styles.hBtn} onClick={addNewList}>
-          Создать
-        </div>
-        <div className={styles.hBtn}>Последний измененный</div>
-        <div className={styles.hBtn}>Листы друзей</div>
-      </div>
-
+  if (currentUser && typeof currentUser.id === "string") {
+    return (
       <div className={styles.mainBlock}>
-        {lists && lists.length ? (
-          lists.map((list, index) => <ListItems data={list} key={index} />)
-        ) : (
-          <div className={styles.noSheets}>
-            <div> У Вас еще нет листов</div>{" "}
-            <div className={styles.pAddList} onClick={addNewList}>
-              Хотите создать?
-            </div>
+        {isLoading ? <Loader /> : null}
+        {isLoadingAddList ? <Loader /> : null}
+        <div className={styles.headMainBlock}>
+          <div
+            className={styles.hBtn}
+            onClick={() => setOpenFilter(!openFilter)}
+          >
+            Фильтрация
           </div>
-        )}
+          <div className={styles.hBtn} onClick={addNewList}>
+            Создать
+          </div>
+          <div className={styles.hBtn} onClick={() => refetch()}>
+            Обновить
+          </div>
+        </div>
+        <div className={styles.content}>
+          <FilterBlock
+            open={openFilter}
+            onClose={() => setOpenFilter(!openFilter)}
+          />
+
+          <div className={styles.mainBlock}>
+            {lists && lists.length ? (
+              lists.map((list, index) => <WishList data={list} key={index} />)
+            ) : (
+              <div className={styles.noSheets}>
+                <div> У Вас еще нет листов</div>{" "}
+                <div className={styles.pAddList} onClick={addNewList}>
+                  Хотите создать?
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return <Loader />;
+  }
 };
 
 export default MainBlock;

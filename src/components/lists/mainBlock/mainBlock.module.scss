@@ -1,3 +1,4 @@
+@import "../../../rootStyles.css";
 .mainBlock {
   //   background-color: rgb(28, 28, 28);
   height: 100%;
@@ -8,7 +9,9 @@
     padding: 10px;
     width: 100%;
     height: min-content;
-    border-bottom: 1px solid white;
+    // border-bottom: 1px solid white;
+    // border-radius: 0 0 30px 30px;
+    background-image: linear-gradient(var(--base-border-color), transparent);
     display: flex;
     justify-content: space-between;
     .hBtn {
@@ -19,26 +22,31 @@
       }
     }
   }
-  .mainBlock {
-    padding: 10px;
+  .content {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    height: 100%;
 
-    .noSheets {
-      width: 100%;
+    .mainBlock {
+      padding: 10px;
       display: flex;
       flex-direction: column;
       align-items: center;
 
-      .pAddList {
-        font-size: 1.2rem;
-        cursor: pointer;
-        color: rgb(129, 129, 255);
-        &:hover {
-          transition: all 0.2s;
-          font-size: 1.7rem;
-          color: blue;
+      .noSheets {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .pAddList {
+          font-size: 1.2rem;
+          cursor: pointer;
+          color: rgb(129, 129, 255);
+          &:hover {
+            transition: all 0.2s;
+            font-size: 1.7rem;
+            color: blue;
+          }
         }
       }
     }

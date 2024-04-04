@@ -1,6 +1,9 @@
 export const Paths = {
   home: "/",
-  list: "/list",
+  lists: "/lists",
   register: "/register",
   login: "/login",
+  frends: "/frends",
+  frend: "/frend",
+  wish: "/wish",
 };

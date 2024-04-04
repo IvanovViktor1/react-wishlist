@@ -1,3 +1,7 @@
 :root {
   --base-border-color: #9d2eff;
+  --removeNclose-color: red;
+  --insertNcreateNadd-color: rgb(0, 225, 38);
+  --settingsNeditNcolor: rgb(57, 80, 255);
+  --eyesIconColor: rgb(18, 126, 117);
 }

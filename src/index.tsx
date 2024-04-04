@@ -3,41 +3,57 @@ import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
-import { store } from "./redux/store";
 import { Paths } from "./paths";
 import Home from "./pages/home";
 import List from "./pages/list";
 import "./index.css";
-
 import { ConfigProvider, theme } from "antd";
 import { createClient } from "@supabase/supabase-js";
-import Register from "./components/authentication/Register";
 import Login from "./components/authentication/Login";
 import { Database } from "./database/schema";
+import { setupStore } from "./store/store";
+import RegisterFragments from "./components/authentication/registerFragments";
+import Frends from "./pages/frends";
+import Lists from "./components/lists";
+import Frend from "./pages/frend";
+import WishInfoPage from "./pages/wish";
 
 export const supabase = createClient<Database>(
   process.env.REACT_APP_SUPABASE_URL as string,
   process.env.REACT_APP_SUPABASE_ANON_KEY as string
 );
-
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
   {
     path: Paths.home,
     element: <Home />,
   },
   {
-    path: Paths.list,
-    element: <List />,
+    path: Paths.lists,
+    element: <Lists />,
   },
   {
     path: Paths.register,
-    element: <Register />,
+    element: <RegisterFragments />,
   },
   {
     path: Paths.login,
     element: <Login />,
   },
+  {
+    path: Paths.frends,
+    element: <Frends />,
+  },
+  {
+    path: `${Paths.frend}/:id`,
+    element: <Frend />,
+  },
+  {
+    path: `${Paths.wish}/:id`,
+    element: <WishInfoPage />,
+  },
 ]);
+
+const store = setupStore();
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);

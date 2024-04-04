@@ -17,6 +17,7 @@ export interface InputElementProps {
   placeholder?: string;
   className?: string;
   onVisible?: boolean;
+  readOnly?: boolean;
   onFocus?: FocusEventHandler<HTMLInputElement>;
   onBlur?: FocusEventHandler<HTMLInputElement>;
   onChange?: ChangeEventHandler<HTMLInputElement>;
@@ -33,6 +34,7 @@ const CustomInput = forwardRef<HTMLInputElement, InputElementProps>(
           ref={ref}
           type={props.type === "password" && !visible ? "password" : "text"}
         />
+
         {props.type === "password" ? (
           visible ? (
             <EyeInvisibleOutlined

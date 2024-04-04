@@ -1,7 +1,30 @@
-.filterBlock {
-  border-right: 1px solid white;
+.filterBlockOpen {
   height: 100%;
+  // padding: 10px;
+  position: relative;
+  transition: width 0.3s;
   width: 15vw;
-  padding: 10px;
-  min-width: max-content;
+  display: flex;
+  .block {
+    padding: 10px;
+    // border-right: 1px solid white;
+    position: sticky;
+    top: 10px;
+    display: flex;
+    width: 100%;
+    height: max-content;
+
+    flex-direction: column;
+    .tags {
+      margin-block: 10px;
+      border: 1px solid white;
+      padding: 5px;
+      width: 100%;
+    }
+  }
+}
+.filterBlockClose {
+  width: 0;
+  border: none;
+  transition: all 0.3s;
 }

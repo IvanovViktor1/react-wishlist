@@ -1,0 +1,148 @@
+@import "../../../rootStyles.css";
+
+.list {
+  // border: 1px solid white;
+  // background-color: rgb(207, 173, 173);
+  color: white;
+  font-size: large;
+  width: 100%;
+  max-width: 70vw;
+  padding: 10px;
+  margin-block-start: 20px;
+  display: flex;
+  flex-direction: column;
+  @media only screen and (max-width: 800px) {
+    max-width: 100vw;
+  }
+
+  .hListClosed,
+  .hList {
+    padding: 10px;
+    position: sticky;
+    top: -3px;
+    display: flex;
+    z-index: 10;
+    width: 100%;
+    font-size: 1.4rem;
+    background-color: rgb(69, 69, 69);
+    margin-top: -10px;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    border-radius: 5px 5px 0 0;
+
+    h4,
+    h3 {
+      color: white;
+      background-color: rgb(69, 69, 69);
+    }
+
+    .description {
+      padding-left: 50px;
+      display: flex;
+      width: 70%;
+      flex-direction: column;
+      @media only screen and (max-width: 600px) {
+        padding-left: 0px;
+      }
+    }
+    @media only screen and (max-width: 600px) {
+      flex-direction: column;
+    }
+    @media only screen and (max-width: 360px) {
+      flex-direction: row;
+    }
+    .options {
+      display: flex;
+
+      justify-content: space-between;
+
+      @media only screen and (max-width: 360px) {
+        flex-direction: column;
+      }
+
+      .btnRemoveList {
+        z-index: 10;
+        cursor: pointer;
+        color: var(--removeNclose-color);
+        &:hover {
+          transition: all 0.2s;
+          border-color: transparent;
+          background-color: var(--removeNclose-color);
+          color: white;
+        }
+      }
+
+      .btnAddWish {
+        color: var(--insertNcreateNadd-color);
+        &:hover {
+          transition: all 0.2s;
+          border-color: transparent;
+          background-color: var(--insertNcreateNadd-color);
+          color: white;
+        }
+      }
+
+      .btnSettings {
+        color: var(--settingsNeditNcolor);
+        &:hover {
+          transition: all 0.2s;
+          border-color: transparent;
+          background-color: var(--settingsNeditNcolor);
+          color: white;
+        }
+      }
+      .btnUpNDown {
+        color: white;
+        &:hover {
+          transition: all 0.2s;
+          border-color: transparent;
+          background-color: white;
+          color: black;
+        }
+      }
+      .btnSetVisible {
+        color: var(--eyesIconColor);
+        &:hover {
+          transition: all 0.2s;
+          border-color: transparent;
+          background-color: var(--eyesIconColor);
+          color: white;
+        }
+      }
+      // --eyesIconColor
+      .btnSetVisible,
+      .btnUpNDown,
+      .btnRemoveList,
+      .btnAddWish,
+      .btnSettings,
+      .btnEdit {
+        display: flex;
+        justify-content: center;
+        padding: 5px;
+        border-radius: 5px;
+        width: 3rem;
+        background-color: black;
+        margin-inline: 5px;
+        cursor: pointer;
+      }
+    }
+  }
+  .hListClosed {
+    border-radius: 5px;
+  }
+
+  .bList {
+    padding-inline: 5px;
+    padding-block: 10px;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    background-color: rgb(45, 45, 45);
+    border-radius: 0 0 5px 5px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+}

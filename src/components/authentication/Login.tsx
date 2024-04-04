@@ -1,23 +1,24 @@
 import React, { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../../redux/store";
 import styles from "./auth.module.scss";
 import CustomInput from "../customInput";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { signInUser } from "../../redux/users/asyncActions";
 import { Paths } from "../../paths";
-import { TSignIn } from "../../redux/users/types";
-import { useSelector } from "react-redux";
-import { getAuthStatus } from "../../redux/users/selectors";
-
 import { AuthError } from "@supabase/supabase-js";
-import { isErrorWithMessage } from "../../utils/isErrorWithMessage";
+import { useAppDispatch } from "../../hooks/redux";
+import { newSessionInfo } from "../../store/reducers/userSlice";
+import { sessionApi } from "../../services/SessionService";
+import Loader from "../loader";
+
+interface Ilogin {
+  email: string;
+  password: string;
+}
 
 const Login: FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [error, setError] = useState<AuthError | string | number | null>(null);
-  const authStatus = useSelector(getAuthStatus);
   const {
     register,
     handleSubmit,
@@ -27,30 +28,27 @@ const Login: FC = () => {
     getValues, //не обязательно
     getFieldState, //не обязательноб
     setValue,
-  } = useForm<TSignIn>({
+  } = useForm<Ilogin>({
     mode: "onChange",
   });
 
-  const onSubmit: SubmitHandler<TSignIn> = async (dataForm) => {
+  const { data: emails } = sessionApi.useGetUserEmailsQuery();
+
+  const [signIn, { isLoading }] = sessionApi.useSignInMutation();
+  const onSubmit: SubmitHandler<Ilogin> = async (dataForm) => {
     if (isValid) {
       try {
-        await dispatch(signInUser(dataForm));
+        signIn(dataForm);
         navigate(Paths.home);
       } catch (error) {
-        const maybeError = isErrorWithMessage(error);
-        if (maybeError) {
-          setError(error.data.message);
-        } else {
-          setError(
-            "Неизвестная ошибка, возможно учетная запись не подтверждена. Зайдите в свой почтовый ящик, который Вы указали при регистрации.."
-          );
-        }
+        console.log(error);
       }
     }
   };
 
   return (
     <div className={styles.mainContainer}>
+      {isLoading ? <Loader /> : null}
       <div className={styles.registerCard}>
         <div className={styles.header}>Войдите в систему</div>
         <form className={styles.block} onSubmit={handleSubmit(onSubmit)}>
@@ -65,6 +63,9 @@ const Login: FC = () => {
                   /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu,
                 message: "Пожалуйста введите корректный Email",
               },
+              validate: (value) =>
+                emails?.includes(value) ||
+                "Пользователь с таким email не зарегистрирован",
             })}
           />
           {errors ? (

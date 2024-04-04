@@ -1,0 +1,26 @@
+@import "../../rootStyles.css";
+
+.mainBlockBtn {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .button {
+    width: 80%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: var(--base-border-color);
+    color: white;
+
+    border: none;
+
+    &:hover {
+      transition: all 0.1s ease-in-out;
+      filter: brightness(85%);
+    }
+  }
+}
