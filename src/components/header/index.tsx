@@ -1,12 +1,13 @@
 import { FC, useEffect, useState, useRef } from "react";
 import styles from "./header.module.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Paths } from "../../paths";
 import { DownCircleOutlined, UpCircleOutlined } from "@ant-design/icons";
 import OptionsDrawer from "../options";
 import { sessionApi } from "../../services/SessionService";
 import { useAppSelector } from "../../hooks/redux";
 import Loader from "../loader";
+import { AuthError } from "@supabase/supabase-js";
 
 const Header: FC = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
@@ -14,11 +15,19 @@ const Header: FC = () => {
     setDrawerVisible(!drawerVisible);
   };
   const ref = useRef<HTMLDivElement | null>(null);
-
-  const { data: queryData, isLoading } = sessionApi.useGetUserSessionQuery();
+  const navigate = useNavigate();
+  const { isLoading, error } = sessionApi.useGetUserSessionQuery();
 
   const currentUser = useAppSelector((state) => state.userReducer).session
     ?.user;
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     if (currentUser === undefined) {
+  //       navigate(Paths.login);
+  //     }
+  //   }, 5000);
+  // }, []);
 
   return (
     <div>

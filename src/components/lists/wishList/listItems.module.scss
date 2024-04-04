@@ -11,9 +11,15 @@
   margin-block-start: 20px;
   display: flex;
   flex-direction: column;
+  @media only screen and (max-width: 800px) {
+    max-width: 100vw;
+  }
 
+  .hListClosed,
   .hList {
     padding: 10px;
+    position: sticky;
+    top: -3px;
     display: flex;
     z-index: 10;
     width: 100%;
@@ -24,6 +30,7 @@
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: space-between;
+    border-radius: 5px 5px 0 0;
 
     h4,
     h3 {
@@ -36,12 +43,26 @@
       display: flex;
       width: 70%;
       flex-direction: column;
+      @media only screen and (max-width: 600px) {
+        padding-left: 0px;
+      }
+    }
+    @media only screen and (max-width: 600px) {
+      flex-direction: column;
+    }
+    @media only screen and (max-width: 360px) {
+      flex-direction: row;
     }
     .options {
       display: flex;
 
       justify-content: space-between;
-      .removeList {
+
+      @media only screen and (max-width: 360px) {
+        flex-direction: column;
+      }
+
+      .btnRemoveList {
         z-index: 10;
         cursor: pointer;
         color: var(--removeNclose-color);
@@ -81,9 +102,19 @@
           color: black;
         }
       }
-
+      .btnSetVisible {
+        color: var(--eyesIconColor);
+        &:hover {
+          transition: all 0.2s;
+          border-color: transparent;
+          background-color: var(--eyesIconColor);
+          color: white;
+        }
+      }
+      // --eyesIconColor
+      .btnSetVisible,
       .btnUpNDown,
-      .removeList,
+      .btnRemoveList,
       .btnAddWish,
       .btnSettings,
       .btnEdit {
@@ -94,90 +125,24 @@
         width: 3rem;
         background-color: black;
         margin-inline: 5px;
+        cursor: pointer;
       }
     }
   }
+  .hListClosed {
+    border-radius: 5px;
+  }
 
   .bList {
+    padding-inline: 5px;
+    padding-block: 10px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     width: 100%;
     background-color: rgb(45, 45, 45);
-    border-radius: 0 0 10px 10px;
-
-    .listItem {
-      margin-block: 10px;
-      padding: 10px;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      .inputColumn {
-        border-radius: 10px;
-        padding: 20px;
-        display: flex;
-        background-color: white;
-        color: black;
-        width: 90%;
-        flex-direction: column;
-
-        flex-wrap: nowrap;
-
-        .headBlock {
-          display: flex;
-          justify-content: space-between;
-          .headBlockText {
-            width: 90%;
-            display: flex;
-            flex-direction: column;
-          }
-          .remove {
-            margin-inline: 5px;
-            width: 3rem;
-            height: 2rem;
-            border: 1px solid black;
-            padding: 5px;
-            border-radius: 5px;
-            display: flex;
-            justify-content: center;
-            cursor: pointer;
-            color: var(--removeNclose-color);
-
-            &:hover {
-              transition: all 0.2s;
-              background-color: var(--removeNclose-color);
-              color: white;
-              border-color: transparent;
-              // color: var(--base-border-color);
-            }
-          }
-        }
-
-        .inputRow {
-          width: 100%;
-          border: none;
-          margin-block-end: 15px;
-          font-size: 1.4rem;
-          padding-left: 10px;
-          border-bottom: 1px solid rgb(72, 72, 72);
-
-          font-style: italic;
-
-          outline: none !important;
-        }
-        .placeholder,
-        .warning {
-          background-color: white;
-          color: black;
-          margin-top: -15px;
-          font-size: smaller;
-        }
-        .placeholder {
-          color: gray;
-          margin-top: 0;
-        }
-      }
-    }
+    border-radius: 0 0 5px 5px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
   }
 }

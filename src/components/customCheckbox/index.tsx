@@ -12,11 +12,14 @@ import styles from "./customChecbox.module.scss";
 export interface InputElementProps {
   value?: string;
   type?: string;
+  role?: React.AriaRole;
+  checked?: boolean | undefined;
   required?: boolean;
   label?: React.ReactNode;
   placeholder?: string;
   className?: string;
   onVisible?: boolean;
+  readOnly?: boolean;
   onFocus?: FocusEventHandler<HTMLInputElement>;
   onBlur?: FocusEventHandler<HTMLInputElement>;
   onChange?: ChangeEventHandler<HTMLInputElement>;
@@ -26,27 +29,13 @@ export interface InputElementProps {
 const CustomCheckbox = forwardRef<HTMLInputElement, InputElementProps>(
   function InputElement(props, ref) {
     return (
-      <div className={styles.inputRow}>
-        {/* <input
-          {...props}
-          ref={ref} 
-          type={props.type === "password" && !visible ? "password" : "text"}
-        />
-        {props.type === "password" ? (
-          visible ? (
-            <EyeInvisibleOutlined
-              className={styles.customIcon}
-              onClick={() => setVisible(!visible)}
-            />
-          ) : (
-            <EyeOutlined
-              className={styles.customIcon}
-              onClick={() => setVisible(!visible)}
-            />
-          )
-        ) : null} */}
-        <input type="checkbox" role="switch" className={styles.neon} />
-      </div>
+      <input
+        className={styles.checkbox}
+        type="checkbox"
+        ref={ref}
+        role="switch"
+        {...props}
+      />
     );
   }
 );

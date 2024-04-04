@@ -3,14 +3,12 @@ import styles from "./customButton.module.scss";
 
 interface ICustomButton {
   text: string;
-  icon?: ReactNode;
 }
 
-const CustomButton: FC<ICustomButton> = ({ text, icon }) => {
+const CustomButton: FC<ICustomButton> = ({ text }) => {
   return (
-    <div className={styles.button}>
-      <p className={styles.btnText}>{text}</p>
-      <div className={styles.icon}>{icon}</div>
+    <div className={styles.mainBlockBtn}>
+      <input className={styles.button} type="submit" value={text} />
     </div>
   );
 };

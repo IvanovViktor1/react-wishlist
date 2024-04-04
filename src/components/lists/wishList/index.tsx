@@ -6,6 +6,8 @@ import {
   CloseOutlined,
   DeleteOutlined,
   DownOutlined,
+  EyeInvisibleOutlined,
+  EyeOutlined,
   PlusCircleTwoTone,
   PlusOutlined,
   SettingOutlined,
@@ -15,9 +17,11 @@ import {
 import Loader from "../../loader";
 import { TList, wishlistApi } from "../../../services/ListService";
 import { wishApi } from "../../../services/WishService";
-import { SettingsList } from "../settingsList";
-import Wish from "./Wish";
-import { AddingWishForm } from "./addingWish";
+import { SettingsList } from "../SettingsList";
+import Wish from "./wish/Wish";
+import { AddingWishForm } from "./AddWish";
+import { sessionApi } from "../../../services/SessionService";
+import { useAppSelector } from "../../../hooks/redux";
 
 const WishList: FC<{ data: TList }> = ({ data }) => {
   const { id, name, description, user_uuid, hidden } = data;
@@ -34,8 +38,13 @@ const WishList: FC<{ data: TList }> = ({ data }) => {
     refetch,
   } = wishApi.useGetWishsByListIdQuery(data.id);
 
+  const currentUserUuid = useAppSelector((state) => state.userReducer).session
+    ?.user.id;
+  const isOwner = currentUserUuid === user_uuid;
+  const { data: userInfo } = sessionApi.useGetUserInfoByUuidQuery(user_uuid);
+
   const { isLoading: loadingListsByUserId, refetch: refetchLists } =
-    wishlistApi.useGetListsByUserIdQuery(user_uuid);
+    wishlistApi.useGetListsByUserIdQuery(userInfo?.id as number);
 
   const handleOpenSettings = () => {
     if (settingsRef.current) {
@@ -69,15 +78,22 @@ const WishList: FC<{ data: TList }> = ({ data }) => {
     });
   };
 
+  const [setVisibleList, { isLoading: isLoadingSetVisible }] =
+    wishlistApi.useSetVisibleListMutation();
+
+  const setVisibleWishList = async () => {
+    await setVisibleList({ ...data, hidden: !data.hidden }).then(() => {
+      refetchLists();
+    });
+  };
+
   return (
     <div className={styles.list}>
       {loadingListsByUserId ? <Loader /> : null}
       {WishsByListId ? <Loader /> : null}
       {removeIsLoading ? <Loader /> : null}
-      <div
-        className={styles.hList}
-        style={{ borderRadius: open ? "10px 10px 0 0" : "10px" }}
-      >
+      {isLoadingSetVisible ? <Loader /> : null}
+      <div className={open ? styles.hList : styles.hListClosed}>
         <div className={styles.description}>
           <h3>{name}</h3>
           <h4>{description}</h4>
@@ -95,27 +111,46 @@ const WishList: FC<{ data: TList }> = ({ data }) => {
             />
           )}
 
-          <PlusOutlined
-            className={styles.btnAddWish}
-            onClick={handleOpenAddWish}
-          />
+          {isOwner ? (
+            <>
+              <PlusOutlined
+                className={styles.btnAddWish}
+                onClick={handleOpenAddWish}
+              />
 
-          <SettingOutlined
-            className={styles.btnSettings}
-            onClick={handleOpenSettings}
-          />
+              <SettingOutlined
+                className={styles.btnSettings}
+                onClick={handleOpenSettings}
+              />
 
-          <CloseOutlined
-            className={styles.removeList}
-            onClick={removeWishList}
-          />
+              {hidden ? (
+                <EyeInvisibleOutlined
+                  className={styles.btnSetVisible}
+                  onClick={setVisibleWishList}
+                />
+              ) : (
+                <EyeOutlined
+                  className={styles.btnSetVisible}
+                  onClick={setVisibleWishList}
+                />
+              )}
+              <CloseOutlined
+                className={styles.btnRemoveList}
+                onClick={removeWishList}
+              />
+            </>
+          ) : null}
         </div>
       </div>
 
       {open && (
         <div className={styles.bList}>
           {wishs && wishs.length > 0
-            ? wishs.map((wish, index) => <Wish data={wish} key={index} />)
+            ? wishs
+                // .filter((wish) => wish.hidden === isOwner)
+                .map((wish, index) => (
+                  <Wish data={wish} key={index} isOwner={isOwner} />
+                ))
             : "ничего не добавлено"}
         </div>
       )}

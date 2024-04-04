@@ -15,6 +15,8 @@ import { setupStore } from "./store/store";
 import RegisterFragments from "./components/authentication/registerFragments";
 import Frends from "./pages/frends";
 import Lists from "./components/lists";
+import Frend from "./pages/frend";
+import WishInfoPage from "./pages/wish";
 
 export const supabase = createClient<Database>(
   process.env.REACT_APP_SUPABASE_URL as string,
@@ -40,6 +42,14 @@ export const router = createBrowserRouter([
   {
     path: Paths.frends,
     element: <Frends />,
+  },
+  {
+    path: `${Paths.frend}/:id`,
+    element: <Frend />,
+  },
+  {
+    path: `${Paths.wish}/:id`,
+    element: <WishInfoPage />,
   },
 ]);
 

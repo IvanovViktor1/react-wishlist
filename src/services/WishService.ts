@@ -10,6 +10,7 @@ export type TWish = {
   link: string | null;
   price: number | null;
   title: string;
+  image_url: string | null;
 };
 
 export type TNewWish = {
@@ -19,6 +20,7 @@ export type TNewWish = {
   link: string | null;
   price: number | null;
   title: string;
+  image_url: string | null;
 };
 
 export const wishApi = createApi({
@@ -46,7 +48,7 @@ export const wishApi = createApi({
           .from("wishs")
           .select("*")
           .eq("id_list", id)
-          .order("id", { ascending: true });
+          .order("date_of_creation", { ascending: false });
         if (error) {
           throw { error };
         }
@@ -54,7 +56,7 @@ export const wishApi = createApi({
         return { data };
       },
     }),
-    getWishById: builder.query<TWish[] | null, number>({
+    getWishById: builder.query<TWish | null, number>({
       queryFn: async (id: number) => {
         const { data, error } = await supabase
           .from("wishs")
@@ -64,7 +66,7 @@ export const wishApi = createApi({
         if (error) {
           throw { error };
         }
-        return { data };
+        return { data: data[0] };
       },
     }),
     addNewWish: builder.mutation<TWish[], TNewWish>({
@@ -79,6 +81,7 @@ export const wishApi = createApi({
               link: newWish.link,
               price: newWish.price,
               title: newWish.title,
+              image_url: newWish.image_url,
             },
           ])
           .select();
@@ -99,6 +102,22 @@ export const wishApi = createApi({
             link: updatedWish.link,
             price: updatedWish.price,
             title: updatedWish.title,
+            image_url: updatedWish.image_url,
+          })
+          .eq("id", updatedWish.id)
+          .select();
+        if (error) {
+          throw { error };
+        }
+        return { data };
+      },
+    }),
+    editWishVisible: builder.mutation<TWish[], TWish>({
+      queryFn: async (updatedWish) => {
+        const { data, error } = await supabase
+          .from("wishs")
+          .update({
+            hidden: updatedWish.hidden,
           })
           .eq("id", updatedWish.id)
           .select();

@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../auth.module.scss";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -40,6 +40,8 @@ const CustomRegister: FC = () => {
   const [customRegister, { data, isLoading, isSuccess }] =
     sessionApi.useCustomRegisterMutation();
 
+  const { data: phoneNumbers } = sessionApi.useGetUserPhonNumbersQuery();
+
   const onSubmit: SubmitHandler<IShippingFields> = (dataForm) => {
     if (isValid) {
       try {
@@ -51,6 +53,16 @@ const CustomRegister: FC = () => {
       }
     }
   };
+
+  const vals = getValues();
+
+  useEffect(() => {
+    console.log(phoneNumbers);
+    console.log(vals.phone);
+    console.log(
+      phoneNumbers?.map((n) => n.toString).includes(vals.phone.toString, 0)
+    );
+  }, [vals.phone]);
 
   return (
     <div className={styles.mainContainer}>
@@ -127,9 +139,14 @@ const CustomRegister: FC = () => {
                 value: /\b\w{11}\b/g,
                 message: "Пожалуйста введите корректный номер телефона!",
               },
+              validate: (value) =>
+                !phoneNumbers?.includes(value) || "Номер уже зарегистрирован",
             })}
           />
 
+          {errors ? (
+            <p className={styles.error}>{errors.phone?.message}</p>
+          ) : null}
           <div className={styles.btnSaveBlock}>
             <input
               type="submit"

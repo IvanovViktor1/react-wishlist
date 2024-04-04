@@ -32,6 +32,8 @@ const Login: FC = () => {
     mode: "onChange",
   });
 
+  const { data: emails } = sessionApi.useGetUserEmailsQuery();
+
   const [signIn, { isLoading }] = sessionApi.useSignInMutation();
   const onSubmit: SubmitHandler<Ilogin> = async (dataForm) => {
     if (isValid) {
@@ -61,6 +63,9 @@ const Login: FC = () => {
                   /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu,
                 message: "Пожалуйста введите корректный Email",
               },
+              validate: (value) =>
+                emails?.includes(value) ||
+                "Пользователь с таким email не зарегистрирован",
             })}
           />
           {errors ? (

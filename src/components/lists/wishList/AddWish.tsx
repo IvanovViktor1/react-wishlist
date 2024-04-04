@@ -1,11 +1,10 @@
 import React, { FC, useState, forwardRef } from "react";
-import styles from "./settingsList.module.scss";
+// import styles from "./settingsList.module.scss";
+import styles from "../popup.module.scss";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
-import { TWish, wishApi } from "../../../../services/WishService";
-import Loader from "../../../loader";
-import CustomInput from "../../../customInput";
-import CustomCheckbox from "../../../customCheckbox";
+import { TWish, wishApi } from "../../../services/WishService";
+import Loader from "../../loader";
+import CustomInput from "../../customInput";
 
 type ISettingsListProps = {
   idList: number;
@@ -41,6 +40,7 @@ export const AddingWishForm = forwardRef<HTMLDivElement, ISettingsListProps>(
             link: dataForm.link,
             price: dataForm.price,
             title: dataForm.title,
+            image_url: dataForm.image_url,
           }).then(() => {
             handleClose();
           });
@@ -62,6 +62,7 @@ export const AddingWishForm = forwardRef<HTMLDivElement, ISettingsListProps>(
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className={styles.inputRows}>
+            <p>Желание</p>
             <CustomInput
               type="text"
               placeholder="Желание"
@@ -71,32 +72,33 @@ export const AddingWishForm = forwardRef<HTMLDivElement, ISettingsListProps>(
             {errors ? (
               <p className={styles.error}>{errors.title?.message}</p>
             ) : null}
-
+            <p>Описание</p>
             <CustomInput
               type="text"
-              placeholder="Опинсание"
+              placeholder="Описание"
               className={styles.input}
               {...register("description")}
             />
+            <p>Cсылка на товар</p>
             <CustomInput
               type="text"
               placeholder="Cсылка на товар"
               className={styles.input}
               {...register("link")}
             />
+            <p>Примерная стоимость в рублях</p>{" "}
             <CustomInput
               type="number"
               placeholder="Примерная стоимость"
               className={styles.input}
               {...register("price")}
             />
-
+            <p>Ссылка на изображение</p>{" "}
             <CustomInput
               className={styles.input}
-              type="checkbox"
-              {...register("hidden")}
+              type="text"
+              {...register("image_url")}
             />
-            <CustomCheckbox type="checkbox" />
           </div>
           <div className={styles.btnRow}>
             <input

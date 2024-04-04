@@ -4,4 +4,6 @@ export const Paths = {
   register: "/register",
   login: "/login",
   frends: "/frends",
+  frend: "/frend",
+  wish: "/wish",
 };

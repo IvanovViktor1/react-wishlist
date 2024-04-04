@@ -1,6 +1,6 @@
 .settingsContainer {
   z-index: 200;
-  background-color: rgba(195, 195, 195, 0.737);
+  background-color: rgba(195, 195, 195, 0.7);
   margin: 0;
   left: 0;
   top: 0;
@@ -19,13 +19,22 @@
   }
   .settingsBlock {
     border-radius: 10px;
-    padding: 30px;
+    padding-block: 30px;
+    padding-inline: 30px;
     // background-color: rgb(20, 69, 53);
-    background-color: rgba(0, 0, 0, 0.855);
+    background-color: rgba(0, 0, 0, 0.919);
     width: 60%;
     height: max-content;
     position: absolute;
+    @media only screen and (max-width: 450px) {
+      width: 90%;
+      padding-inline: 5px;
+    }
     .inputRows {
+      p {
+        color: gray;
+        background-color: transparent;
+      }
       .input {
         border: 1px solid rgba(255, 255, 255, 0.443);
         width: 100%;
@@ -42,11 +51,17 @@
       display: flex;
       align-items: center;
       justify-content: space-evenly;
-      .btnSave {
-        cursor: pointer;
 
+      @media only screen and (max-width: 350px) {
+        flex-direction: column;
+      }
+      .btnSave {
+        width: 40%;
+        cursor: pointer;
+        margin: 5px;
         background-color: rgb(1, 112, 5);
-        border-radius: 10px;
+        border-radius: 5px;
+        border: none;
         color: white;
         padding: 10px;
         &:hover {
@@ -54,9 +69,12 @@
         }
       }
       .btnCancel {
+        width: 40%;
         cursor: pointer;
+        border: none;
+        margin: 5px;
         background-color: rgb(94, 3, 3);
-        border-radius: 10px;
+        border-radius: 5px;
         color: white;
         padding: 10px;
         &:hover {

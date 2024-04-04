@@ -1,0 +1,53 @@
+.mainPageBlock {
+  display: flex;
+  margin-top: 20px;
+  width: 100%;
+  flex-direction: row;
+  justify-content: center;
+  @media only screen and (max-width: 400px) {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .imageBlock {
+    // width: 400px;
+    // height: 170px;
+    display: flex;
+    justify-content: center;
+    .imgIcon {
+      max-width: 500px;
+      padding: 2px;
+      width: min-content;
+      height: inherit;
+    }
+  }
+
+  .textBlock {
+    margin-left: 10px;
+    display: flex;
+    width: inherit;
+    max-width: 40%;
+    flex-direction: column;
+    justify-content: space-between;
+
+    @media only screen and (max-width: 400px) {
+      max-width: 100%;
+    }
+
+    .txtRow {
+      max-width: 95%;
+      width: inherit;
+      margin-block: 5px;
+      padding: 2px;
+      background-color: rgba(255, 255, 255, 0.084);
+      border: 1px solid gray;
+      .placeholder {
+        font-size: small;
+        color: gray;
+      }
+      p {
+        background-color: transparent;
+      }
+    }
+  }
+}

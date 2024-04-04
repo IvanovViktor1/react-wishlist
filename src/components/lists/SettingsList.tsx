@@ -1,11 +1,12 @@
 import React, { FC, useState, forwardRef } from "react";
-import styles from "./settingsList.module.scss";
-import CustomInput from "../../customInput";
-import CustomButton from "../../customButton";
+// import styles from "./settingsList.module.scss";
+import styles from "./popup.module.scss";
+import CustomInput from "../customInput";
+import CustomButton from "../customButton";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-import Loader from "../../loader";
-import { TList, wishlistApi } from "../../../services/ListService";
+import Loader from "../loader";
+import { TList, wishlistApi } from "../../services/ListService";
 
 type ISettingsListProps = {
   data: TList;

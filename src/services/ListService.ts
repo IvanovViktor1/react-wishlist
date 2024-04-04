@@ -12,10 +12,10 @@ export type TList = {
 };
 
 export type TNewList = {
-  description: string | null;
-  hidden: boolean;
+  description?: string | null;
+  hidden?: boolean;
   name: string;
-  user_uuid: string;
+  user_id: number;
 };
 const baseQuery = fetchBaseQuery({
   baseUrl: "https://vxrcktkkwrusbwueauis.supabase.co",
@@ -46,12 +46,12 @@ export const wishlistApi = createApi({
     //________________________________________________________________
     //________________________________________________________________
     //________________________________________________________________
-    getListsByUserId: builder.query<TList[] | null, string>({
-      queryFn: async (user_uuid: string) => {
+    getListsByUserId: builder.query<TList[] | null, number>({
+      queryFn: async (user_id: number) => {
         let retries = 5;
         while (retries > 0) {
-          if (typeof user_uuid !== "string") {
-            console.warn("user_uuid is not a string, retrying...");
+          if (typeof user_id !== "number") {
+            console.warn("user_id is not a number, retrying...");
             await new Promise((resolve, reject) => {
               setTimeout(resolve, 1000);
             });
@@ -62,7 +62,7 @@ export const wishlistApi = createApi({
           const { data, error } = await supabase
             .from("lists")
             .select("*")
-            .eq("user_uuid", user_uuid)
+            .eq("user_id", user_id)
             .order("id", { ascending: true });
           if (error) {
             console.error(error);
@@ -100,7 +100,7 @@ export const wishlistApi = createApi({
               description: newList.description,
               hidden: newList.hidden,
               name: newList.name,
-              user_uuid: newList.user_uuid,
+              user_id: newList.user_id,
             },
           ])
           .select();
@@ -118,6 +118,21 @@ export const wishlistApi = createApi({
             description: updatedList.description,
             hidden: updatedList.hidden,
             name: updatedList.name,
+          })
+          .eq("id", updatedList.id)
+          .select();
+        if (error) {
+          throw { error };
+        }
+        return { data };
+      },
+    }),
+    setVisibleList: builder.mutation<TList[], TList>({
+      queryFn: async (updatedList) => {
+        const { data, error } = await supabase
+          .from("lists")
+          .update({
+            hidden: updatedList.hidden,
           })
           .eq("id", updatedList.id)
           .select();
