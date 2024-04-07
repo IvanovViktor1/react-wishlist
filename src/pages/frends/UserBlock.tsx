@@ -6,6 +6,8 @@ import { useAppSelector } from "../../hooks/redux";
 import Loader from "../../components/loader";
 import { useNavigate } from "react-router-dom";
 import { Paths } from "../../paths";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../store/reducers/authSlice";
 
 interface IUserBlock {
   data: TUser;
@@ -13,8 +15,7 @@ interface IUserBlock {
 
 const UserBlock: FC<IUserBlock> = ({ data }) => {
   const { id, name, phone, user_uuid, email } = data;
-  const currentUserUuid = useAppSelector((state) => state.userReducer).session
-    ?.user.id;
+  const currentUserUuid = useSelector(selectUser)?.user_uuid;
 
   const navigate = useNavigate();
   const {

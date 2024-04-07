@@ -10,6 +10,7 @@ import { Paths } from "../../../paths";
 import Loader from "../../loader";
 import CustomInput from "../../customInput";
 import { supabase } from "../../..";
+import { authApi } from "../../../services/authApi";
 
 type IShippingFields = {
   phone: number;
@@ -38,7 +39,7 @@ const CustomRegister: FC = () => {
   const watchPassword = watch("password");
 
   const [customRegister, { data, isLoading, isSuccess }] =
-    sessionApi.useCustomRegisterMutation();
+    authApi.useLoginMutation();
 
   const { data: phoneNumbers } = sessionApi.useGetUserPhonNumbersQuery();
 
@@ -70,7 +71,7 @@ const CustomRegister: FC = () => {
         <div className={styles.header}>
           Регистрация <p>шаг - 1</p>
         </div>
-        {isLoading ? <Loader /> : null}
+        {/* {isLoading ? <Loader /> : null} */}
 
         <form className={styles.block} onSubmit={handleSubmit(onSubmit)}>
           <CustomInput

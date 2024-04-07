@@ -9,14 +9,15 @@ import UserBlock from "./UserBlock";
 import { useForm } from "react-hook-form";
 import SearchForm from "./SearchForm";
 import Loader from "../../components/loader";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../store/reducers/authSlice";
 
 const Frends: FC = () => {
-  const currentUser = useAppSelector((state) => state.userReducer).session
-    ?.user;
+  const currentUser = useSelector(selectUser);
   const { data: allUsers } = sessionApi.useGetAllUsersQuery();
   const [searchingUsers, setSearchingUsers] = useState<TUser | null>(null);
   const { data: frends, isLoading } = frendsApi.useGetAllFrendsQuery(
-    currentUser?.id as string
+    currentUser?.user_uuid as string
   );
 
   const handleSearch = (result: TUser | null) => {

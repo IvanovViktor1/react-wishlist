@@ -6,9 +6,9 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Paths } from "../../paths";
 import { AuthError } from "@supabase/supabase-js";
 import { useAppDispatch } from "../../hooks/redux";
-import { newSessionInfo } from "../../store/reducers/userSlice";
 import { sessionApi } from "../../services/SessionService";
 import Loader from "../loader";
+import { useLoginMutation } from "../../services/authApi";
 
 interface Ilogin {
   email: string;
@@ -32,13 +32,12 @@ const Login: FC = () => {
     mode: "onChange",
   });
 
-  const { data: emails } = sessionApi.useGetUserEmailsQuery();
+  const [login, { data, isLoading }] = useLoginMutation();
 
-  const [signIn, { isLoading }] = sessionApi.useSignInMutation();
   const onSubmit: SubmitHandler<Ilogin> = async (dataForm) => {
     if (isValid) {
       try {
-        signIn(dataForm);
+        login(dataForm);
         navigate(Paths.home);
       } catch (error) {
         console.log(error);
@@ -48,7 +47,7 @@ const Login: FC = () => {
 
   return (
     <div className={styles.mainContainer}>
-      {isLoading ? <Loader /> : null}
+      {/* {isLoading ? <Loader /> : null} */}
       <div className={styles.registerCard}>
         <div className={styles.header}>Войдите в систему</div>
         <form className={styles.block} onSubmit={handleSubmit(onSubmit)}>
@@ -63,9 +62,9 @@ const Login: FC = () => {
                   /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu,
                 message: "Пожалуйста введите корректный Email",
               },
-              validate: (value) =>
-                emails?.includes(value) ||
-                "Пользователь с таким email не зарегистрирован",
+              // validate: (value) =>
+              //   emails?.includes(value) ||
+              //   "Пользователь с таким email не зарегистрирован",
             })}
           />
           {errors ? (

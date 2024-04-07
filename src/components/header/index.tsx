@@ -5,9 +5,12 @@ import { Paths } from "../../paths";
 import { DownCircleOutlined, UpCircleOutlined } from "@ant-design/icons";
 import OptionsDrawer from "../options";
 import { sessionApi } from "../../services/SessionService";
-import { useAppSelector } from "../../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux";
 import Loader from "../loader";
 import { AuthError } from "@supabase/supabase-js";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../store/reducers/authSlice";
+import { authApi } from "../../services/authApi";
 
 const Header: FC = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
@@ -16,26 +19,21 @@ const Header: FC = () => {
   };
   const ref = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
-  const { isLoading, error } = sessionApi.useGetUserSessionQuery();
-
-  const currentUser = useAppSelector((state) => state.userReducer).session
-    ?.user;
-
+  const user = useSelector(selectUser);
+  const dispatch = useAppDispatch();
   // useEffect(() => {
-  //   setTimeout(() => {
-  //     if (currentUser === undefined) {
-  //       navigate(Paths.login);
-  //     }
-  //   }, 5000);
-  // }, []);
+  // const { data, isLoading } = authApi.useCurrentQuery();
+  // }, [dispatch]);
 
+  // const { data, isLoading } = useCurrentQuery();
   return (
     <div>
       <header className={styles.header}>
-        {isLoading ? <Loader /> : null}
+        {/* {isLoading ? <Loader /> : null} */}
         <Link to={Paths.home}>
           <h2>Whishlist</h2>
-          <h4>{currentUser?.user_metadata.name}</h4>
+          {user && <p>{user.name}</p>}
+          {/* <h4>{currentUser?.user_metadata.name}</h4> */}
         </Link>
 
         <div className={styles.btnOption} onClick={visibleDrawer}>

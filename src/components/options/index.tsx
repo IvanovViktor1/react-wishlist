@@ -4,8 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { Paths } from "../../paths";
 import { supabase } from "../..";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
-import { exitUser } from "../../store/reducers/userSlice";
 import { sessionApi } from "../../services/SessionService";
+import { logout, selectUser } from "../../store/reducers/authSlice";
+import { useSelector } from "react-redux";
 
 interface IDrawer {
   open: boolean;
@@ -16,15 +17,13 @@ const OptionsDrawer: FC<IDrawer> = ({ open, onClose }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const exit = async () => {
-    dispatch(exitUser());
+    dispatch(logout());
     await supabase.auth.signOut().then(() => navigate(Paths.home));
   };
 
-  const { refetch } = sessionApi.useGetUserSessionQuery();
   const outsideRef = useRef<HTMLDivElement>(null);
+  const user = useSelector(selectUser);
 
-  const currentUser = useAppSelector((state) => state.userReducer).session
-    ?.user;
   const handleClickOutside = (event: MouseEvent) => {
     if (
       outsideRef.current &&
@@ -48,10 +47,10 @@ const OptionsDrawer: FC<IDrawer> = ({ open, onClose }) => {
         ref={outsideRef}
         style={{ top: open ? "0" : "-500px" }}
       >
-        {currentUser ? (
+        {user ? (
           <>
             <div className={styles.head}>
-              <h4>{currentUser?.user_metadata.name}</h4>
+              <h4>{user.name}</h4>
             </div>
             <Link to={Paths.lists}>
               <div className={styles.btn}>Листы</div>

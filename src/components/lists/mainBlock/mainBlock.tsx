@@ -10,30 +10,27 @@ import Loader from "../../loader";
 import { QueryStatus } from "@reduxjs/toolkit/query";
 import FilterBlock from "../filter";
 import { sessionApi } from "../../../services/SessionService";
+import { selectUser } from "../../../store/reducers/authSlice";
 
 const MainBlock: FC = () => {
   const [openFilter, setOpenFilter] = useState(false);
-  const currentUser = useAppSelector((state) => state.userReducer).session
-    ?.user;
+
+  const currentUser = useSelector(selectUser);
 
   const [
     addList,
     { data, isError: isErrorAddList, isLoading: isLoadingAddList, status },
   ] = wishlistApi.useAddNewListMutation();
 
-  const { data: userInfo } = sessionApi.useGetUserInfoByUuidQuery(
-    currentUser?.id as string
-  );
-
   const {
     data: lists,
     isError,
     isLoading,
     refetch,
-  } = wishlistApi.useGetListsByUserIdQuery(userInfo?.id as number);
+  } = wishlistApi.useGetListsByUserIdQuery(currentUser?.id as number);
 
   const addNewList = () => {
-    if (currentUser && userInfo) {
+    if (currentUser) {
       addList({
         // description: "Описание",
         // hidden: false,
@@ -42,7 +39,7 @@ const MainBlock: FC = () => {
         description: "Описание",
         hidden: false,
         name: "Наименование",
-        user_id: userInfo.id,
+        user_id: currentUser.id,
       }).then(() => {
         refetch();
         console.log("refetch");

@@ -1,12 +1,20 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import userReducer from "./reducers/userSlice";
+import {
+  configureStore,
+  ThunkAction,
+  Action,
+  combineReducers,
+} from "@reduxjs/toolkit";
+import { authApi } from "../services/authApi";
+import authSlice from "./reducers/authSlice";
 import { sessionApi } from "../services/SessionService";
 import { wishlistApi } from "../services/ListService";
 import { wishApi } from "../services/WishService";
 import { frendsApi } from "../services/FrendService";
+import { authMiddleware } from "../middleware/authMiddleware";
 
 export const rootReducer = combineReducers({
-  userReducer,
+  authSlice,
+  [authApi.reducerPath]: authApi.reducer,
   [sessionApi.reducerPath]: sessionApi.reducer,
   [wishlistApi.reducerPath]: wishlistApi.reducer,
   [wishApi.reducerPath]: wishApi.reducer,
@@ -16,12 +24,9 @@ export const rootReducer = combineReducers({
 export const setupStore = () => {
   return configureStore({
     reducer: rootReducer,
-    middleware: (getDefauleMiddleware) =>
-      getDefauleMiddleware()
-        .concat(sessionApi.middleware)
-        .concat(wishlistApi.middleware)
-        .concat(wishApi.middleware)
-        .concat(frendsApi.middleware),
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(authMiddleware),
+    devTools: process.env.NODE_ENV !== "production",
   });
 };
 

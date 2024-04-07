@@ -22,6 +22,8 @@ import Wish from "./wish/Wish";
 import { AddingWishForm } from "./AddWish";
 import { sessionApi } from "../../../services/SessionService";
 import { useAppSelector } from "../../../hooks/redux";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../../store/reducers/authSlice";
 
 const WishList: FC<{ data: TList }> = ({ data }) => {
   const { id, name, description, user_uuid, hidden } = data;
@@ -38,8 +40,7 @@ const WishList: FC<{ data: TList }> = ({ data }) => {
     refetch,
   } = wishApi.useGetWishsByListIdQuery(data.id);
 
-  const currentUserUuid = useAppSelector((state) => state.userReducer).session
-    ?.user.id;
+  const currentUserUuid = useSelector(selectUser)?.user_uuid;
   const isOwner = currentUserUuid === user_uuid;
   const { data: userInfo } = sessionApi.useGetUserInfoByUuidQuery(user_uuid);
 
