@@ -8,7 +8,7 @@ import { AuthError } from "@supabase/supabase-js";
 import { useAppDispatch } from "../../hooks/redux";
 import { newSessionInfo } from "../../store/reducers/userSlice";
 import { sessionApi } from "../../services/SessionService";
-import Loader from "../loader";
+import CustomLoader from "../loader/CustomLoader";
 
 interface Ilogin {
   email: string;
@@ -48,7 +48,7 @@ const Login: FC = () => {
 
   return (
     <div className={styles.mainContainer}>
-      {isLoading ? <Loader /> : null}
+      {isLoading ? <CustomLoader text="выполнение входа" /> : null}
       <div className={styles.registerCard}>
         <div className={styles.header}>Войдите в систему</div>
         <form className={styles.block} onSubmit={handleSubmit(onSubmit)}>

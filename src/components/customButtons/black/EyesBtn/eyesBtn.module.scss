@@ -1,0 +1,169 @@
+@import "../../../../rootStyles.css";
+
+.mainStyles {
+  color: var(--eyesIconColor);
+  display: flex;
+  justify-content: center;
+  // padding: 5px;
+  border-radius: 5px;
+  width: 3rem;
+  height: 1.2rem;
+  background-color: black;
+  margin-inline: 10px;
+  cursor: pointer;
+  font-size: medium;
+  .loaderBlock {
+    .loader {
+      display: inline-flex;
+      gap: 10px;
+    }
+    .loader:before,
+    .loader:after {
+      content: "";
+      height: 10px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      // background: linear-gradient(#5d1a8e 0 0) top/100% 40% no-repeat,
+      //   radial-gradient(farthest-side, #000 95%, #0000) 50%/8px 8px no-repeat #fff;
+      background: linear-gradient(#904bc0 0 0) top/100% 0% no-repeat,
+        radial-gradient(farthest-side, #000 95%, #0000) 50%/8px 8px no-repeat
+          #fff;
+      animation: l7 1.5s infinite alternate ease-in;
+    }
+    @keyframes l7 {
+      0%,
+      70% {
+        background-size: 100% 40%, 8px 8px;
+      }
+      85% {
+        background-size: 100% 120%, 8px 8px;
+      }
+      100% {
+        background-size: 100% 40%, 8px 8px;
+      }
+    }
+  }
+
+  .loaderBlock:active {
+    .loader {
+      display: inline-flex;
+      gap: 10px;
+    }
+    .loader:before,
+    .loader:after {
+      content: "";
+      height: 10px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: radial-gradient(farthest-side, #000 95%, #0000) 35% 35%/6px
+        6px no-repeat #fff;
+      transform: scaleX(var(--s, 1)) rotate(0deg);
+      animation: l6 0.2s infinite linear;
+    }
+    .loader:after {
+      --s: -1;
+      animation-delay: -0.1s;
+    }
+    @keyframes l6 {
+      100% {
+        transform: scaleX(var(--s, 1)) rotate(360deg);
+      }
+    }
+  }
+
+  .loaderBlockClose {
+    .loader {
+      display: inline-flex;
+      gap: 10px;
+    }
+    .loader:before,
+    .loader:after {
+      content: "";
+      height: 10px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: linear-gradient(#28003d 0 0) top/100% 0% no-repeat,
+        radial-gradient(farthest-side, #000 95%, #0000) 50%/8px 8px no-repeat
+          #fff;
+      // animation: l9 2s infinite; //бескончный цикл анимации
+      animation: l9 0.4s forwards ease-in; //анимация сработает 1 раз
+    }
+    @keyframes l9 {
+      0% {
+        background-size: 100% 0%, 8px 8px;
+        background-position: top, 50% 50%;
+      }
+      80% {
+        background-size: 100% 70%, 8px 8px;
+        background-position: top, 50% 70%;
+      }
+      84%,
+      100% {
+        background-size: 100% 99%, 8px 8px;
+        background-position: top, 50% 50%;
+      }
+    }
+  }
+
+  .loaderLoading {
+    display: inline-flex;
+    gap: 10px;
+  }
+  .loaderLoading:before,
+  .loaderLoading:after {
+    content: "";
+    height: 10px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(farthest-side, #000 95%, #0000) 35% 35%/6px 6px
+      no-repeat #fff;
+    transform: scaleX(var(--s, 1)) rotate(0deg);
+    animation: l6 0.2s infinite linear;
+  }
+  .loaderLoading:after {
+    --s: -1;
+    animation-delay: -0.1s;
+  }
+  @keyframes l6 {
+    100% {
+      transform: scaleX(var(--s, 1)) rotate(360deg);
+    }
+  }
+
+  &:hover {
+    transition: all 0.2s;
+    border-color: transparent;
+    background-color: var(--eyesIconColor);
+    color: white;
+    .loader {
+      display: inline-flex;
+      gap: 10px;
+    }
+    .loader:before,
+    .loader:after {
+      content: "";
+      height: 10px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: radial-gradient(farthest-side, #000 95%, #0000) 50%/8px 8px
+        no-repeat #fff;
+      aspect-ratio: 1;
+      animation: l10 1s infinite alternate;
+    }
+    .loader:after {
+      --s: -1;
+    }
+    @keyframes l10 {
+      0%,
+      20% {
+        transform: scaleX(var(--s, 1)) rotate(0deg);
+        clip-path: inset(0);
+      }
+      60%,
+      100% {
+        transform: scaleX(var(--s, 1)) rotate(30deg);
+        clip-path: inset(40% 0 0);
+      }
+    }
+  }
+}

@@ -3,5 +3,9 @@
   --removeNclose-color: red;
   --insertNcreateNadd-color: rgb(0, 225, 38);
   --settingsNeditNcolor: rgb(57, 80, 255);
-  --eyesIconColor: rgb(18, 126, 117);
+  --eyesIconColor: rgb(0, 0, 0);
+  --background-color-wish: rgb(255, 255, 255);
+  --background-color-list: rgb(44, 44, 44);
+  --border-color-list: rgb(88, 88, 88);
+  --border-color-search-block: #9d2eff;
 }

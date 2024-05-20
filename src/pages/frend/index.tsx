@@ -1,26 +1,33 @@
 import React, { FC, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { sessionApi } from "../../services/SessionService";
-import Loader from "../../components/loader";
 import { Layout } from "../../components/layout";
 import { wishlistApi } from "../../services/ListService";
 import WishList from "../../components/lists/wishList";
 import { useAppSelector } from "../../hooks/redux";
+import CustomLoader from "../../components/loader/CustomLoader";
 
 const Frend: FC = () => {
   const params = useParams<{ id: string }>();
   const { data, isLoading, isError } = sessionApi.useGetUserInfoByIdQuery(
     Number(params.id)
   );
-
+  const sortLists = useAppSelector(
+    (state) => state.sortAndFilterReducer
+  ).sortLists;
   const { data: lists, isLoading: isLoading1 } =
-    wishlistApi.useGetListsByUserIdQuery(Number(params.id));
+    wishlistApi.useGetListsByUserIdQuery({
+      user_id: Number(params.id),
+      sortByDate: sortLists.sortByDate,
+      sortByHidden: sortLists.sortByHidden,
+      sortValue: sortLists.value,
+    });
 
   const readableLists = lists?.filter((list) => list.hidden === false);
 
   return (
     <Layout>
-      {isLoading && isLoading1 && <Loader />}
+      {isLoading && isLoading1 && <CustomLoader />}
       {data ? (
         <>
           <div>

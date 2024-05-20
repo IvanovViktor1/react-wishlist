@@ -12,15 +12,6 @@ type WhishsType = {
 const List: FC = () => {
   const [items, setItems] = useState<WhishsType[] | null>(null);
 
-  // const handleChange = (e: ChangeEvent<HTMLInputElement>, id: number) => {
-  //   const newArray = items;
-  //   if (newArray && newArray.length) {
-  //     const currentIndex = newArray.findIndex((item) => item.id === id);
-  //     newArray[currentIndex].text = e.target.value;
-  //     setItems(newArray);
-  //   }
-  // };
-
   const handleAddItem = () => {
     if (items === null) {
       setItems([{ id: 1, text: "Новое желание" }]);
@@ -51,7 +42,6 @@ const List: FC = () => {
                 <td key={index}>
                   <Input
                     value={item.text}
-                    // onChange={(e) => handleChange(e, item.id)}
                     onChange={(e) => {
                       item.text = e.target.value;
                     }}

@@ -3,9 +3,9 @@ import { TUser, sessionApi } from "../../services/SessionService";
 import styles from "./frends.module.scss";
 import { frendsApi } from "../../services/FrendService";
 import { useAppSelector } from "../../hooks/redux";
-import Loader from "../../components/loader";
 import { useNavigate } from "react-router-dom";
 import { Paths } from "../../paths";
+import CustomLoader from "../../components/loader/CustomLoader";
 
 interface IUserBlock {
   data: TUser;
@@ -40,7 +40,9 @@ const UserBlock: FC<IUserBlock> = ({ data }) => {
 
   return (
     <>
-      {isLoading && isLoading1 && isLoading2 && isLoading3 ? <Loader /> : null}
+      {isLoading && isLoading1 && isLoading2 && isLoading3 ? (
+        <CustomLoader />
+      ) : null}
       {currentUserUuid && frends ? (
         <div
           className={

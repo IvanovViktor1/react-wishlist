@@ -1,0 +1,160 @@
+@import "../../../rootStyles.css";
+
+.blockContainer {
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 10px;
+  z-index: 10;
+  .rowContainer {
+    z-index: 11;
+    display: flex;
+    flex-direction: row;
+    padding-inline: 15px;
+    padding-block: 5px;
+    width: 100%;
+    font-size: large;
+    background-color: rgba(64, 64, 64, 0.939);
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0px 11px 20px 2px black;
+
+    .optionBtns {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .searchBlock {
+      width: 50%;
+      // background-color: black;
+      // border: 1px solid rgba(128, 128, 128, 0.459);
+      // border-radius: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .searchWindow {
+        display: inline;
+        width: 80%;
+        .inputElement {
+          display: contents;
+          width: 100%;
+          .searchInput {
+            height: 80%;
+            width: 100%;
+            background-color: black;
+            border-radius: 5px;
+            color: white;
+            font-size: large;
+            padding: 5px;
+          }
+          .dataListOpen {
+            border: 1px solid gray;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 2px 3px 29px 13px rgba(0, 0, 0, 1);
+            padding-block: 4px;
+            position: absolute;
+            max-height: 200px;
+            margin-left: 2px;
+            display: flex;
+            background: black;
+            flex-direction: column;
+            width: 49%;
+            overflow-y: auto;
+            // align-items: center;
+            .item {
+              display: flex;
+              align-items: center;
+              padding: 5px;
+              cursor: pointer;
+              height: 25px;
+              // text-align: center;
+              width: 100%;
+              &:hover {
+                background-color: rgba(255, 255, 255, 0.184);
+              }
+            }
+          }
+          .dataListClose {
+            display: none;
+            height: 0;
+            overflow: hidden;
+          }
+        }
+
+        .btnClear {
+          cursor: pointer;
+          // position: absolute;
+          margin-left: -30px;
+          color: red;
+          &:hover {
+            filter: brightness(80%);
+          }
+        }
+      }
+
+      .btnSearch {
+        position: relative;
+        font-size: larger;
+        cursor: pointer;
+        &:hover {
+          transition: color 0.2s;
+
+          color: greenyellow;
+        }
+      }
+
+      &:hover {
+        transition: 0.3s;
+        color: var(--border-color-search-block);
+      }
+    }
+
+    @media only screen and (max-width: 600px) {
+      flex-direction: column;
+      .optionBtns {
+        display: flex;
+        width: 100%;
+        justify-content: space-around;
+      }
+      .searchBlock {
+        width: 100%;
+      }
+    }
+  }
+  .optionsUnderRow {
+    margin-top: 10px;
+    margin-left: 30px;
+    display: flex;
+
+    .btnAddWish {
+      color: rgb(0, 254, 0);
+      transform: scale(1.5);
+      background-color: rgba(0, 0, 0, 0.133);
+      border-radius: 24px;
+      &:hover {
+        z-index: 13;
+        transition: transform 0.3s;
+        transform: scale(2);
+      }
+    }
+
+    .btnSwitchDetails {
+      padding-inline: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      span {
+        font-size: small;
+        filter: brightness(80%);
+      }
+      &:hover {
+        z-index: 13;
+        span {
+          filter: brightness(100%);
+        }
+      }
+    }
+  }
+}

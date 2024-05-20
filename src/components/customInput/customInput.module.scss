@@ -6,6 +6,7 @@
     cursor: pointer;
     position: absolute;
     right: 22px;
+    resize: none;
     &:hover {
       transition: all 0.2s;
       filter: brightness(70%);

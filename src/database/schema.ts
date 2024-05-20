@@ -128,8 +128,10 @@ export type Database = {
       };
       wishs: {
         Row: {
-          date_of_creation: string | null;
+          category_id: number;
+          date_of_creation: string;
           description: string | null;
+          fulfilled: boolean | null;
           hidden: boolean;
           id: number;
           id_list: number;
@@ -139,8 +141,10 @@ export type Database = {
           title: string;
         };
         Insert: {
-          date_of_creation?: string | null;
+          category_id: number;
+          date_of_creation?: string;
           description?: string | null;
+          fulfilled?: boolean | null;
           hidden?: boolean;
           id?: number;
           id_list: number;
@@ -150,8 +154,10 @@ export type Database = {
           title: string;
         };
         Update: {
-          date_of_creation?: string | null;
+          category_id?: number;
+          date_of_creation?: string;
           description?: string | null;
+          fulfilled?: boolean | null;
           hidden?: boolean;
           id?: number;
           id_list?: number;

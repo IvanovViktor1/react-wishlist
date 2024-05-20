@@ -18,21 +18,32 @@ export interface InputElementProps {
   className?: string;
   onVisible?: boolean;
   readOnly?: boolean;
-  onFocus?: FocusEventHandler<HTMLInputElement>;
-  onBlur?: FocusEventHandler<HTMLInputElement>;
-  onChange?: ChangeEventHandler<HTMLInputElement>;
-  onKeyDown?: KeyboardEventHandler<HTMLInputElement>;
+  // onFocus?: FocusEventHandler<HTMLInputElement>;
+  // onBlur?: FocusEventHandler<HTMLInputElement>;
+  // onChange?: ChangeEventHandler<HTMLInputElement>;
+  // onKeyDown?: KeyboardEventHandler<HTMLInputElement>;
+  onFocus?: FocusEventHandler<HTMLTextAreaElement>;
+  onBlur?: FocusEventHandler<HTMLTextAreaElement>;
+  onChange?: ChangeEventHandler<HTMLTextAreaElement>;
+  onKeyDown?: KeyboardEventHandler<HTMLTextAreaElement>;
 }
 
-const CustomInput = forwardRef<HTMLInputElement, InputElementProps>(
+const CustomInput = forwardRef<HTMLTextAreaElement, InputElementProps>(
   function InputElement(props, ref) {
     const [visible, setVisible] = useState(false);
     return (
       <div className={styles.inputRow}>
-        <input
+        {/* <input
           {...props}
           ref={ref}
+          
           type={props.type === "password" && !visible ? "password" : "text"}
+        /> */}
+        <textarea
+          {...props}
+          ref={ref}
+
+          // type={props.type === "password" && !visible ? "password" : "text"}
         />
 
         {props.type === "password" ? (

@@ -8,7 +8,7 @@ import CustomInput from "../../components/customInput";
 import UserBlock from "./UserBlock";
 import { useForm } from "react-hook-form";
 import SearchForm from "./SearchForm";
-import Loader from "../../components/loader";
+import CustomLoader from "../../components/loader/CustomLoader";
 
 const Frends: FC = () => {
   const currentUser = useAppSelector((state) => state.userReducer).session
@@ -28,14 +28,15 @@ const Frends: FC = () => {
   };
 
   return (
-    <>
+    <Layout>
       {allUsers && frends ? (
-        <Layout>
+        <>
           <SearchForm
             users={allUsers}
             onSearch={handleSearch}
             onClear={clearSearch}
           />
+
           <div className={styles.allFrends}>
             {searchingUsers ? (
               <UserBlock data={searchingUsers} />
@@ -47,11 +48,11 @@ const Frends: FC = () => {
                 .map((user, index) => <UserBlock key={index} data={user} />)
             )}
           </div>
-        </Layout>
+        </>
       ) : (
-        <Loader />
+        <CustomLoader text="загрузка пользователей.." />
       )}
-    </>
+    </Layout>
   );
 };
 

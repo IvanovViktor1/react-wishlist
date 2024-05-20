@@ -180,6 +180,7 @@ export const sessionApi = createApi({
             await new Promise((resolve, reject) => {
               setTimeout(resolve, 1000);
             });
+            console.log("поптыка");
             retries--;
             continue;
           }
@@ -197,6 +198,33 @@ export const sessionApi = createApi({
           return { data: data[0] };
         }
         throw Error("Failed to get lists after 3 retries");
+      },
+    }),
+    getCurrentUserInfo: builder.query<TUser | null, void>({
+      queryFn: async (): Promise<{ data: Session } | any> => {
+        const { data: dataSession, error: responseErrorSession } =
+          await supabase.auth.getUser();
+
+        if (responseErrorSession) {
+          throw Error(responseErrorSession.message);
+        }
+
+        try {
+          if (dataSession.user) {
+            const { data, error } = await supabase
+              .from("users")
+              .select("*")
+              .eq("user_uuid", dataSession.user.id)
+              .order("id", { ascending: true });
+            if (error) {
+              console.error(error);
+              throw { error };
+            }
+            return { data: data[0] };
+          }
+        } catch (error) {
+          throw { error };
+        }
       },
     }),
   }),

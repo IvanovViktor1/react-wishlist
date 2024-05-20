@@ -1,41 +1,27 @@
-import { FC, useEffect, useState, useRef } from "react";
+import { FC, useState } from "react";
 import styles from "./header.module.scss";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Paths } from "../../paths";
 import { DownCircleOutlined, UpCircleOutlined } from "@ant-design/icons";
 import OptionsDrawer from "../options";
 import { sessionApi } from "../../services/SessionService";
-import { useAppSelector } from "../../hooks/redux";
-import Loader from "../loader";
-import { AuthError } from "@supabase/supabase-js";
+import CustomLoader from "../loader/CustomLoader";
 
 const Header: FC = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
   const visibleDrawer = () => {
     setDrawerVisible(!drawerVisible);
   };
-  const ref = useRef<HTMLDivElement | null>(null);
-  const navigate = useNavigate();
-  const { isLoading, error } = sessionApi.useGetUserSessionQuery();
-
-  const currentUser = useAppSelector((state) => state.userReducer).session
-    ?.user;
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     if (currentUser === undefined) {
-  //       navigate(Paths.login);
-  //     }
-  //   }, 5000);
-  // }, []);
+  const { data, isFetching } = sessionApi.useGetCurrentUserInfoQuery();
 
   return (
-    <div>
+    <div className={styles.mainHeader}>
       <header className={styles.header}>
-        {isLoading ? <Loader /> : null}
         <Link to={Paths.home}>
           <h2>Whishlist</h2>
-          <h4>{currentUser?.user_metadata.name}</h4>
+          {data && <h4>{data.name}</h4>}
+          {/* {isFetching && <CustomLoader text="Загрузка имени..." />} */}
+          {data === null && <h4>Не авторизован</h4>}
         </Link>
 
         <div className={styles.btnOption} onClick={visibleDrawer}>

@@ -1,7 +1,59 @@
+// @import "../../images/main.webp"
+
 .main {
-  width: 80%;
+  width: 100%;
   height: 100%;
   margin-inline: auto;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &::-webkit-scrollbar {
+    width: 8px; // ширина скроллбара
+  }
+
+  // Стилизация дорожки скроллбара
+  &::-webkit-scrollbar-track {
+    background: transparent; // цвет фона дорожки
+  }
+
+  // Стилизация ползунка скроллбара
+  &::-webkit-scrollbar-thumb {
+    background-color: rgb(109, 109, 109); // цвет ползунка
+    border-radius: 8px; // закругление углов ползунка
+    // border: 1px solid orange; // рамка вокруг ползунка
+  }
+
+  // Стилизация ползунка при наведении
+  &::-webkit-scrollbar-thumb:hover {
+    cursor: grab;
+    background-color: rgb(213, 213, 213);
+    // background-color: #555; // цвет ползунка при наведении
+  }
+
+  .content {
+    // margin-top: 40px;
+    height: 100%;
+    width: 100%;
+    // display: flex;
+
+    // width: 80%;
+    // background: linear-gradient(
+    //   135deg,
+    //   rgba(255, 255, 255, 0.02),
+    //   rgba(255, 255, 255, 0)
+    // );
+    // -webkit-backdrop-filter: blur(10px);
+    // backdrop-filter: blur(10px);
+    // box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    // border-radius: 20px;
+    // background-color: rgba(0, 255, 255, 0.119);
+    // width: 80%;
+    // display: flex;
+    // flex-direction: row;
+    // justify-content: center;
+  }
 }
 
 @media only screen and (max-width: 600px) {

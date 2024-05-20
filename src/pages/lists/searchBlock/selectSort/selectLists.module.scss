@@ -1,0 +1,134 @@
+@import "../../../../rootStyles.css";
+
+.selectComponent {
+  display: flex;
+  background-color: black;
+  border: 1px solid rgba(128, 128, 128, 0.459);
+  border-radius: 5px;
+  .selectBlock {
+    display: flex;
+    flex-direction: column;
+    height: min-content;
+    .title,
+    .titleListOpen {
+      display: flex;
+      padding: 6px;
+      cursor: pointer;
+      align-items: center;
+      flex-direction: row;
+      justify-content: center;
+      gap: 5px;
+      border: 1px solid transparent;
+      .arrowDown {
+        margin-top: -2px;
+        color: rgba(116, 116, 116, 0.495);
+      }
+      .text {
+        font-size: small;
+      }
+      &:active {
+        border: 1px solid rgba(255, 255, 255, 0.483);
+      }
+    }
+    .titleListOpen {
+      transition: border 0.3s;
+      border: 1px solid white;
+      color: var(--border-color-search-block);
+      .arrowDown {
+        color: var(--border-color-search-block);
+        transform: translateY(3px);
+      }
+    }
+    .selectListBlock {
+      position: relative;
+
+      .selectListClose {
+        display: none;
+      }
+      .selectList {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        // height: 3rem;
+        // max-height: 200px;
+        // overflow-y: scroll;
+        font-size: small;
+        background-color: black;
+        border: 1px solid rgba(255, 255, 255, 0.292);
+        cursor: pointer;
+
+        &:hover {
+          transition: border 0.4s;
+          border: 1px solid white;
+        }
+
+        .item,
+        .itemSelected {
+          padding: 3px;
+          border-bottom: 1px solid #eee;
+
+          color: white;
+
+          &:hover {
+            background-color: #e2e2e23c;
+          }
+        }
+        .itemSelected {
+          &::before {
+            content: "\2714";
+            padding: 3px;
+            color: var(--border-color-search-block);
+          }
+        }
+        &::-webkit-scrollbar {
+          width: 5px;
+        }
+
+        &::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background-color: rgba(255, 255, 255, 0.355);
+          border-radius: 8px;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+          cursor: grab;
+          background-color: var(--border-color-search-block);
+        }
+      }
+    }
+  }
+  .btnAscendingTrue,
+  .btnAscendingFalse {
+    transition: transform 0.3s;
+    padding-inline: 3px;
+    cursor: pointer;
+  }
+
+  .btnAscendingFalse {
+    transform: rotate(180deg);
+  }
+
+  &:hover {
+    .title,
+    .titleListOpen {
+      .text {
+        transition: color 0.3s;
+        color: var(--border-color-search-block);
+      }
+      .arrowDown {
+        transition: all 0.3s;
+        transform: translateY(3px);
+        color: var(--border-color-search-block);
+      }
+    }
+    .btnAscendingTrue,
+    .btnAscendingFalse {
+      color: aquamarine;
+      transition: 0.3s;
+    }
+  }
+}

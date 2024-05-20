@@ -29,3 +29,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+body {
+  background-image: url("./images/main.webp");
+
+  background-size: cover;
+  /* // Покрывает весь элемент, сохраняя пропорции изображения */
+  background-position: center;
+  /* // Центрирует изображение по центру элемента */
+  background-repeat: no-repeat;
+  /* // Предотвращает повторение изображения */
+}

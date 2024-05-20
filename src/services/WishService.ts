@@ -9,8 +9,10 @@ export type TWish = {
   id_list: number;
   link: string | null;
   price: number | null;
+  date_of_creation: string;
   title: string;
   image_url: string | null;
+  category_id: number;
 };
 
 export type TNewWish = {
@@ -21,6 +23,23 @@ export type TNewWish = {
   price: number | null;
   title: string;
   image_url: string | null;
+  category_id: number;
+};
+
+export type TWishsRequestData = {
+  id: number;
+  sortByDate: boolean; // по дате
+  sortByHidden: boolean; // сначала скрытые от других
+  sortValue: boolean; // по дате
+  categories: number[];
+};
+export type TWishsRequestData2 = {
+  categories: number[];
+  listIds: number[];
+  sortByDate: boolean;
+  sortByHidden: boolean;
+  sortByPrice: boolean;
+  ascending: boolean;
 };
 
 export const wishApi = createApi({
@@ -29,12 +48,53 @@ export const wishApi = createApi({
     baseUrl: "https://vxrcktkkwrusbwueauis.supabase.co",
   }),
   endpoints: (builder) => ({
+    getAllWishsInCategories: builder.query<TWish[], TWishsRequestData2>({
+      queryFn: async (wishsRequestData) => {
+        let query = supabase.from("wishs").select("*");
+
+        if (wishsRequestData.categories.length > 0) {
+          query = query.in("category_id", wishsRequestData.categories);
+        }
+
+        if (wishsRequestData.listIds.length > 0) {
+          query = query.in(" id_list", wishsRequestData.listIds);
+        }
+
+        if (wishsRequestData.sortByDate) {
+          query = query.order("date_of_creation", {
+            ascending: wishsRequestData.ascending,
+          });
+        }
+
+        if (wishsRequestData.sortByPrice) {
+          query = query.order("price", {
+            ascending: wishsRequestData.ascending,
+          });
+        }
+
+        if (wishsRequestData.sortByHidden) {
+          query = query.order("hidden", {
+            ascending: wishsRequestData.ascending,
+          });
+        }
+
+        const { data, error } = await query;
+        if (error) {
+          console.error("Ошибка при запросе к Supabase:", error);
+          throw { error };
+        }
+
+        return { data };
+      },
+    }),
+    // ____________________________
     getAllWishs: builder.query<TWish[], void>({
       queryFn: async () => {
         const { data, error } = await supabase
           .from("wishs")
           .select("*")
-          .order("id", { ascending: true });
+          .order("date_of_creation", { ascending: false });
+        // .order("id", { ascending: true });
         if (error) {
           throw { error };
         }
@@ -42,27 +102,44 @@ export const wishApi = createApi({
         return { data };
       },
     }),
-    getWishsByListId: builder.query<TWish[] | null, number>({
-      queryFn: async (id: number) => {
-        const { data, error } = await supabase
+    // ---------------------------------------------
+
+    getWishsByListId: builder.query<TWish[] | null, TWishsRequestData>({
+      queryFn: async (wishsRequestData) => {
+        let query = supabase
           .from("wishs")
           .select("*")
-          .eq("id_list", id)
-          .order("date_of_creation", { ascending: false });
+          // .in(
+          //   "category_id",
+          //   wishsRequestData.categories
+          // )
+          .eq("id_list", wishsRequestData.id)
+          .order(
+            `${wishsRequestData.sortByHidden ? "hidden" : "date_of_creation"}`,
+            { ascending: wishsRequestData.sortValue }
+          );
+
+        if (wishsRequestData.categories?.length > 0) {
+          query = query.in("category_id", wishsRequestData.categories);
+        }
+        const { data, error } = await query;
         if (error) {
+          console.error("Ошибка при запросе к Supabase:", error);
           throw { error };
         }
 
         return { data };
       },
     }),
+
+    // ---------------------------------------------
     getWishById: builder.query<TWish | null, number>({
       queryFn: async (id: number) => {
         const { data, error } = await supabase
           .from("wishs")
           .select("*")
           .eq("id", id)
-          .order("id", { ascending: true });
+          .order("date_of_creation", { ascending: false });
         if (error) {
           throw { error };
         }
@@ -82,6 +159,7 @@ export const wishApi = createApi({
               price: newWish.price,
               title: newWish.title,
               image_url: newWish.image_url,
+              category_id: newWish.category_id,
             },
           ])
           .select();
@@ -103,6 +181,7 @@ export const wishApi = createApi({
             price: updatedWish.price,
             title: updatedWish.title,
             image_url: updatedWish.image_url,
+            category_id: updatedWish.category_id,
           })
           .eq("id", updatedWish.id)
           .select();

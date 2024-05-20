@@ -7,9 +7,9 @@ import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { SerializedError } from "@reduxjs/toolkit";
 import { sessionApi } from "../../../services/SessionService";
 import { Paths } from "../../../paths";
-import Loader from "../../loader";
 import CustomInput from "../../customInput";
 import { supabase } from "../../..";
+import CustomLoader from "../../loader/CustomLoader";
 
 type IShippingFields = {
   phone: number;
@@ -70,7 +70,7 @@ const CustomRegister: FC = () => {
         <div className={styles.header}>
           Регистрация <p>шаг - 1</p>
         </div>
-        {isLoading ? <Loader /> : null}
+        {isLoading ? <CustomLoader text="регистрация..." /> : null}
 
         <form className={styles.block} onSubmit={handleSubmit(onSubmit)}>
           <CustomInput

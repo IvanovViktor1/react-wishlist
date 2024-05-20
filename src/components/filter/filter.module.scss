@@ -1,0 +1,34 @@
+.filterBlockOpen {
+  // position: sticky;
+  z-index: 9999 !important;
+  width: 100%;
+  transition: height 0.3s;
+  // width: 18vw;
+  padding-inline: 5px;
+  display: flex;
+  font-size: medium;
+  background-color: black;
+  // background: linear-gradient(135deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0));
+  // -webkit-backdrop-filter: blur(4px);
+  // backdrop-filter: blur(10px);
+  // box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  // border-radius: 20px;
+  // background-color: rgba(0, 255, 255, 0.119);
+  color: white;
+  @media only screen and (max-width: 600px) {
+    width: 100%;
+    height: 20%;
+    position: relative;
+  }
+
+  .block {
+    display: flex;
+    // gap: 20px;
+    align-items: center;
+  }
+}
+.filterBlockClose {
+  height: 0;
+  border: none;
+  transition: all 0.3s;
+}

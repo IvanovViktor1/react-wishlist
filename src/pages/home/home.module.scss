@@ -2,15 +2,40 @@
   height: 100%;
 
   .tagsLine,
-  .frendNews {
+  .frendNews,
+  .learn {
     padding: 20px;
     height: 30vh;
     width: 100%;
     background-color: rgba(255, 228, 196, 0.242);
     margin-block: 30px;
+    &:hover {
+      filter: brightness(80%);
+    }
+    &:active {
+      filter: brightness(50%);
+    }
   }
 
   .frendNews {
     background-color: rgba(203, 255, 196, 0.252);
   }
+
+  .learn {
+    background-color: rgb(29, 125, 16);
+  }
+}
+
+.message-ball {
+  font-size: 20px;
+  line-height: 200px;
+  text-align: center;
+}
+.circle {
+  transition-property: width, height;
+  transition-duration: 2s;
+  position: fixed;
+  transform: translateX(-50%) translateY(-50%);
+  background-color: red;
+  border-radius: 50%;
 }

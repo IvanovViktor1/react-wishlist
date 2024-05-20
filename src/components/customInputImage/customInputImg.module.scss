@@ -1,0 +1,63 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  .inputRow {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    .customIcon {
+      cursor: pointer;
+      position: absolute;
+      right: 22px;
+      resize: none;
+      &:hover {
+        transition: all 0.2s;
+        filter: brightness(70%);
+      }
+    }
+  }
+
+  .previewBlock {
+    margin-top: 10px;
+    span {
+      color: yellow;
+    }
+    .imgBlock {
+      // width: 300px;
+      // display: flex;
+      // height: 300px;
+      // justify-content: center;
+      // align-items: center;
+      // overflow: hidden;
+      // gap: 5px;
+      overflow: hidden;
+      padding: 5px;
+      display: contents;
+      width: 200px;
+      height: 200px;
+      background-color: white;
+      // overflow: hidden;
+      // padding: 5px;
+      // display: inline-flex;
+      // width: 200px;
+      // height: 200px;
+      // background-color: white;
+      // align-items: center;
+      // justify-content: center;
+      // // border-radius: 100px;
+      img {
+        width: 200px;
+        height: 200px;
+      }
+      .btnClear {
+        position: absolute;
+        color: red;
+        transform: scale(1.5);
+        transition: transform 0.2s;
+        &:hover {
+          transform: scale(1.8);
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,156 @@
+@import "../../rootStyles.css";
+
+.listItem {
+  // border: 1px solid white;
+  position: relative;
+  // width: min-content;
+  // width: calc(100% / 4 - 8px);
+  // height: calc(100% / 4 - 8px);
+  // height: inherit;
+  display: flex;
+  // background-color: var(--background-color-wish);
+  flex-direction: column;
+  color: black;
+  align-items: center;
+  transition: height 0.7s;
+  font-size: 18px;
+
+  @media only screen and (max-width: 900px) {
+    padding: 0;
+  }
+  @media only screen and (max-width: 500px) {
+    padding: 0;
+  }
+  @media only screen and (max-width: 350px) {
+    padding: 0;
+  }
+
+  .buttons {
+    display: flex;
+    height: auto;
+    width: 20%;
+    padding: 4px;
+    background-color: rgb(32, 32, 32);
+    border-radius: 5px;
+
+    flex-direction: row;
+
+    .btnWishUnvisible,
+    .btnWishVisible,
+    .btnSetting,
+    .btnRemove,
+    .btnOpenOther {
+      font-size: 18px;
+      width: 100%;
+      height: 1.4rem;
+      border-radius: 5px;
+      display: flex;
+      justify-content: center;
+      cursor: pointer;
+      &:hover {
+        transition: all 0.2s;
+        color: white;
+        border-color: transparent;
+      }
+    }
+
+    .btnWishVisible {
+      color: rgb(18, 126, 117);
+      &:hover {
+        background-color: rgb(18, 126, 117);
+      }
+    }
+    .btnWishUnvisible {
+      background-color: rgb(18, 126, 117);
+      color: white;
+      border: 1px solid transparent;
+      &:hover {
+        background-color: white;
+        color: rgb(18, 126, 117);
+        border: 1px solid black;
+      }
+    }
+
+    .btnSetting {
+      color: var(--settingsNeditNcolor);
+      &:hover {
+        background-color: var(--settingsNeditNcolor);
+      }
+    }
+
+    .btnRemove {
+      color: var(--removeNclose-color);
+      &:hover {
+        background-color: var(--removeNclose-color);
+      }
+    }
+    .btnOpenOther {
+      color: black;
+      &:hover {
+        background-color: black;
+      }
+    }
+  }
+
+  .date {
+    color: gray;
+    font-size: smaller;
+  }
+
+  .mainInfo {
+    width: 100%;
+    color: aqua;
+    border-top: 1px solid white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    // .title {
+    //   display: list-item;
+    //   // width: 100%;
+    //   // justify-content: space-between;
+    // }
+
+    .details {
+      transition: height 0.3s ease-in-out;
+      height: 0;
+      display: flex;
+      padding: 10px;
+      justify-content: space-around;
+      .image {
+        // background-color: var(--background-color-wish);
+        // border-radius: 10px;
+        padding: 10px;
+        width: min-content;
+
+        .imgIcon,
+        .imgIconDefault {
+          background-color: rgb(199, 197, 141);
+          border-radius: 5px;
+        }
+        .imgIconDefault {
+          z-index: 1;
+          border: 1px solid;
+        }
+      }
+      .text {
+        color: rgb(11, 199, 199);
+        display: flex;
+        flex-direction: column;
+        .description {
+          color: white;
+        }
+      }
+    }
+    details {
+      height: 0;
+      transition: height 0.3s ease-in-out;
+    }
+    details[open] {
+      display: block;
+      height: 300px;
+      transition: height 0.3s ease-in-out;
+    }
+  }
+}

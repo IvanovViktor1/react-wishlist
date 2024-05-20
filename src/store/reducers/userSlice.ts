@@ -48,7 +48,6 @@ export const userSlice = createSlice({
       sessionApi.endpoints.signIn.matchRejected,
       (state, action) => {
         state.session = null;
-
         state.error = action.error.message;
       }
     );
@@ -56,10 +55,10 @@ export const userSlice = createSlice({
       sessionApi.endpoints.getUserSession.matchFulfilled,
       (state, action: PayloadAction<Session>) => {
         state.isLoading = false;
+        state.session = action.payload;
         if (!action.payload) {
           console.log("Session not found");
         }
-        state.session = action.payload;
       }
     );
     builder.addMatcher(

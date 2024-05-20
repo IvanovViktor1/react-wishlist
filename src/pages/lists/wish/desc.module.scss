@@ -1,0 +1,117 @@
+@import "../../../rootStyles.css";
+
+.item {
+  padding: 4px;
+  font-size: large;
+  cursor: pointer;
+  width: 60%;
+
+  @media only screen and (max-width: 750px) {
+    width: 80%;
+  }
+  @media only screen and (max-width: 500px) {
+    width: 95%;
+  }
+  &:hover {
+    background: linear-gradient(
+      180deg,
+      rgba(128, 128, 128, 0.119) 15%,
+      transparent 75%
+    );
+    // }
+  }
+
+  .title {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    align-items: center;
+
+    .titleWish {
+      width: 50%;
+    }
+
+    .options {
+      width: 20%;
+      display: flex;
+      justify-content: flex-end;
+      gap: 18px;
+      // background-color: rgba(250, 235, 215, 0.12);
+      .btnDelete,
+      .btnEye,
+      .btnEdit {
+        // opacity: 0.6;
+        color: rgba(128, 128, 128, 0.172);
+        &:hover {
+          transition: 0.2s;
+          transform: scale(1.5);
+        }
+      }
+    }
+    .date_of_creation {
+      color: gray;
+      background-color: transparent;
+    }
+
+    .arrowDownVisible,
+    .arrowUpVisible {
+      color: rgba(128, 128, 128, 0.172);
+      position: absolute;
+      margin-left: -2rem;
+      margin-top: -2px;
+    }
+    .arrowUpVisible {
+      margin-top: 4px;
+    }
+
+    &:hover {
+      .arrowDownVisible,
+      .arrowUpVisible {
+        color: var(--border-color-search-block);
+        transition: 0.4s;
+        transform: translateY(5px);
+      }
+      .arrowUpVisible {
+        transform: rotate(180deg);
+      }
+      .btnDelete,
+      .btnEye,
+      .btnEdit {
+        transition: 0.2s;
+        transform: scale(1.1);
+      }
+      .btnDelete {
+        color: red;
+      }
+      .btnEye {
+        color: var(--border-color-search-block);
+      }
+      .btnEdit {
+        color: blue;
+      }
+    }
+  }
+
+  .itemDescriptionOpen,
+  .itemDescriptionClose {
+    transition: height 0.2s;
+  }
+
+  .itemDescriptionOpen {
+    height: 100%;
+    padding: 20px;
+
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+
+    @media only screen and (max-width: 750px) {
+      padding: 0;
+    }
+  }
+  .itemDescriptionClose {
+    height: 0;
+    overflow: hidden;
+  }
+}

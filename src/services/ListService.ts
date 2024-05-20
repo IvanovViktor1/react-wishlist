@@ -1,6 +1,18 @@
-import { createApi, fetchBaseQuery, retry } from "@reduxjs/toolkit/query/react";
+import {
+  createApi,
+  fetchBaseQuery,
+  retry,
+  skipToken,
+} from "@reduxjs/toolkit/query/react";
 import { supabase } from "../index";
 import { IUser } from "../models/IUser";
+
+export type TListsRequestData = {
+  user_id: number;
+  sortByDate: boolean; // по дате
+  sortByHidden: boolean; // сначала скрытые от других
+  sortValue: boolean; // по дате
+};
 
 export type TList = {
   date_of_creation: string;
@@ -31,7 +43,8 @@ export const wishlistApi = createApi({
         const { data, error } = await supabase
           .from("lists")
           .select("*")
-          .order("id", { ascending: true });
+          // .order("id", { ascending: true });
+          .order("date_of_creation", { ascending: false });
         if (error) {
           throw { error };
         }
@@ -46,35 +59,38 @@ export const wishlistApi = createApi({
     //________________________________________________________________
     //________________________________________________________________
     //________________________________________________________________
-    getListsByUserId: builder.query<TList[] | null, number>({
-      queryFn: async (user_id: number) => {
+    //________________________________________________________________
+    //________________________________________________________________
+    //________________________________________________________________
+    //________________________________________________________________
+    getListsByUserId: builder.query<TList[] | null, TListsRequestData>({
+      queryFn: async (listsRequestData) => {
         let retries = 5;
         while (retries > 0) {
-          if (typeof user_id !== "number") {
-            console.warn("user_id is not a number, retrying...");
-            await new Promise((resolve, reject) => {
-              setTimeout(resolve, 1000);
-            });
+          if (typeof listsRequestData.user_id !== "number") {
+            await new Promise((resolve) => setTimeout(resolve, 1000));
             retries--;
             continue;
           }
-
           const { data, error } = await supabase
             .from("lists")
             .select("*")
-            .eq("user_id", user_id)
-            .order("id", { ascending: true });
-          if (error) {
-            console.error(error);
-            throw { error };
-          }
+            .eq("user_id", listsRequestData.user_id)
+            .order(
+              `${
+                listsRequestData.sortByHidden ? "hidden" : "date_of_creation"
+              }`,
+              { ascending: listsRequestData.sortValue }
+            );
 
+          if (error) {
+            throw new Error(error.message);
+          }
           return { data };
         }
-        throw Error("Failed to get lists after 3 retries");
+        throw Error("Failed to get lists after 5 retries");
       },
     }),
-    //________________________________________________________________
     //________________________________________________________________
     //________________________________________________________________
     //________________________________________________________________

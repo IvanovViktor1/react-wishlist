@@ -1,0 +1,209 @@
+@import "../../../rootStyles.css";
+
+.list {
+  font-size: larger;
+  width: 100%;
+  padding-top: 10px;
+  margin-block-start: 20px;
+  display: flex;
+  flex-direction: column;
+  @media only screen and (max-width: 800px) {
+    max-width: 100vw;
+  }
+  color: white;
+
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.22),
+    rgba(255, 255, 255, 0.077)
+  );
+  // background-color: gray;
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  border-radius: 8px;
+  border: 1px solid var(--border-color-list);
+
+  .bListClose {
+    transition: height 0.3s;
+    height: 0;
+    overflow: hidden;
+  }
+
+  .bList {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    // gap: 8px;
+    // flex-wrap: wrap;
+    // justify-content: space-between;
+  }
+
+  .hListClosed,
+  .hList {
+    background-color: rgba(38, 91, 16, 0.252);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    border-radius: 8px;
+    padding: 5px;
+    position: sticky;
+    top: -3px;
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+    width: 100%;
+    font-size: 3rem;
+    margin-top: -10px;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+
+    .options {
+      display: flex;
+
+      justify-content: flex-end;
+
+      @media only screen and (max-width: 500px) {
+        display: grid;
+        margin-bottom: 10px;
+        grid: 20px 10px / auto-flow 30%;
+      }
+
+      .btnRemoveListLoader,
+      .btnRemoveList {
+        z-index: 10;
+        cursor: pointer;
+        color: var(--removeNclose-color);
+        &:hover {
+          transition: all 0.2s;
+          border-color: transparent;
+          background-color: var(--removeNclose-color);
+          color: white;
+        }
+      }
+      .btnRemoveListLoader {
+        @keyframes changeColor {
+          0% {
+            background-color: black;
+          }
+          50% {
+            background-color: var(--removeNclose-color);
+            color: white;
+          }
+          100% {
+            background-color: black;
+          }
+        }
+        z-index: 10;
+        cursor: pointer;
+        color: var(--removeNclose-color);
+        animation: changeColor 0.6s infinite ease-in;
+      }
+
+      .btnAddWish {
+        color: var(--insertNcreateNadd-color);
+        &:hover {
+          transition: all 0.2s;
+          border-color: transparent;
+          background-color: var(--insertNcreateNadd-color);
+          color: white;
+        }
+      }
+
+      .btnFilter {
+        color: rgb(47, 231, 255);
+        &:hover {
+          transition: all 0.2s;
+          border-color: transparent;
+          // filter: contrast(50%);
+          background-color: rgb(47, 231, 255);
+          color: rgb(255, 255, 255);
+        }
+      }
+
+      .btnSettings {
+        color: var(--settingsNeditNcolor);
+        &:hover {
+          transition: all 0.2s;
+          border-color: transparent;
+          background-color: var(--settingsNeditNcolor);
+          color: white;
+        }
+      }
+      .btnUpNDown {
+        color: white;
+        &:hover {
+          transition: all 0.2s;
+          border-color: transparent;
+          background-color: white;
+          color: black;
+        }
+      }
+
+      .btnRemoveListLoader,
+      .btnUpNDown,
+      .btnFilter,
+      .btnRemoveList,
+      .btnAddWish,
+      .btnSettings,
+      .btnEdit {
+        display: flex;
+        justify-content: center;
+        padding: 5px;
+        border-radius: 5px;
+        width: 3rem;
+        height: 1.2rem;
+        background-color: black;
+        margin-inline: 10px;
+        cursor: pointer;
+        font-size: medium;
+      }
+    }
+
+    .firstRow {
+      display: flex;
+      .description {
+        font-size: medium;
+        padding-left: 50px;
+        display: flex;
+        width: 70%;
+        flex-direction: column;
+
+        .name,
+        .nameDescription {
+          background-color: transparent;
+        }
+        .nameDescription {
+          filter: brightness(60%);
+        }
+        .name {
+          font-size: larger;
+        }
+        @media only screen and (max-width: 750px) {
+          padding-left: 0px;
+          width: 100%;
+        }
+      }
+    }
+
+    .filterBlockOpen {
+      // transition: height 0.3s;
+      height: max-content;
+      display: flex;
+      flex-direction: column;
+      // overflow-x: hidden;
+    }
+    .filterBlockClose {
+      // transition: height 0.3s;
+      height: 0;
+      overflow: hidden;
+    }
+
+    @media only screen and (max-width: 800px) {
+      flex-direction: column;
+    }
+  }
+  // .hListClosed {
+  //   // border-radius: 10px;
+  // }
+}

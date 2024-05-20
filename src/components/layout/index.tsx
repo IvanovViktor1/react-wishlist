@@ -13,9 +13,9 @@ export const Layout: FC<Props> = ({ children }) => {
     <div className={styles.main}>
       <Header />
 
-      <AntdLayout.Content style={{ height: "100%" }}>
-        {children}
-      </AntdLayout.Content>
+      {/* <AntdLayout.Content className={styles.content}> */}
+      <div className={styles.content}>{children}</div>
+      {/* </AntdLayout.Content> */}
     </div>
   );
 };
