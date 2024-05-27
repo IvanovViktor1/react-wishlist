@@ -49,17 +49,20 @@ const OptionsDrawer: FC<IDrawer> = ({ open, onClose }) => {
         {data ? (
           <>
             <div className={styles.head}>
-              <h4>{data.name}</h4>
+              <h4>{data.user.name}</h4>
             </div>
+
             <Link to={Paths.lists}>
               <div className={styles.btn}>Листы</div>
             </Link>
-            <Link to={Paths.lists2}>
-              <div className={styles.btn}>Листы 2</div>
+            <Link to={Paths.allWishs}>
+              <div className={styles.btn}>Все желания</div>
             </Link>
-            <Link to={Paths.frends}>
-              <div className={styles.btn}>Друзья</div>
+            <div className={styles.btn}>Друзья</div>
+            <Link to={Paths.info}>
+              <div className={styles.btn}>О вишлисте</div>
             </Link>
+
             <div className={styles.btn}>Настройки профиля</div>
             <div
               className={styles.btn}

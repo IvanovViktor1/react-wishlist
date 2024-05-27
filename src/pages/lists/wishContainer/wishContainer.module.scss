@@ -1,0 +1,94 @@
+.cardWishInfo {
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  // flex-direction: column;
+  border-radius: 10px;
+  backdrop-filter: blur(20px);
+  background-color: rgba(0, 0, 0, 0.652);
+  padding: 15px;
+  gap: 10px;
+
+  .btnClose {
+    cursor: pointer;
+    color: red;
+    position: absolute;
+    right: 10px;
+    transition: transform 0.3s;
+    &:hover {
+      transform: scale(1.4);
+    }
+  }
+
+  .btnSave {
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: green;
+    color: white;
+    width: 100%;
+    height: 40px;
+    &:hover {
+      transition: filter 0.2s;
+      filter: brightness(150%);
+    }
+  }
+  a {
+    color: rgb(142, 204, 255);
+    &:hover {
+      color: aqua;
+    }
+  }
+
+  .input {
+    text-align: start;
+    padding: 3px;
+    border-radius: 10px;
+    font-size: medium;
+    font-style: normal;
+    font-family: "Courier New", Courier, monospace;
+    height: 2em;
+    background-color: transparent;
+    color: white;
+    border: 1px solid rgb(142, 201, 253);
+    width: 100%;
+    option {
+      // font-size: medium;
+      background-color: black;
+    }
+  }
+
+  .textColumn {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+  }
+
+  .imageColumn {
+    width: 40%;
+    overflow: hidden;
+    p {
+      width: 100%;
+      height: 100%;
+
+      .image {
+        width: 100%;
+        // position: absolute;
+        // top: 10px;
+        // right: 10px;
+        .uploadedImage {
+          width: 100%;
+          // max-width: inherit;
+          // width: min-content;
+        }
+      }
+    }
+  }
+
+  @media only screen and (max-width: 1000px) {
+    flex-direction: column;
+    .textColumn,
+    .imageColumn {
+      width: 100%;
+    }
+  }
+}

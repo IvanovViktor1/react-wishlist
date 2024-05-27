@@ -5,18 +5,16 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
 import { Paths } from "./paths";
 import Home from "./pages/home";
-import List from "./pages/list";
-import "./index.css";
+import "./index.scss";
 import { ConfigProvider, theme } from "antd";
 import { createClient } from "@supabase/supabase-js";
 import Login from "./components/authentication/Login";
 import { Database } from "./database/schema";
 import { setupStore } from "./store/store";
 import RegisterFragments from "./components/authentication/registerFragments";
-import Frends from "./pages/frends";
-import Lists from "./components/lists";
-import Frend from "./pages/frend";
 import ListsPage from "./pages/lists";
+import InformationAboutWishlists from "./pages/informationAboutWishlists";
+import AllWishs from "./pages/allWishs";
 
 export const supabase = createClient<Database>(
   process.env.REACT_APP_SUPABASE_URL as string,
@@ -29,11 +27,11 @@ export const router = createBrowserRouter([
   },
   {
     path: Paths.lists,
-    element: <Lists />,
+    element: <ListsPage />,
   },
   {
-    path: Paths.lists2,
-    element: <ListsPage />,
+    path: Paths.allWishs,
+    element: <AllWishs />,
   },
   {
     path: Paths.register,
@@ -44,12 +42,8 @@ export const router = createBrowserRouter([
     element: <Login />,
   },
   {
-    path: Paths.frends,
-    element: <Frends />,
-  },
-  {
-    path: `${Paths.frend}/:id`,
-    element: <Frend />,
+    path: Paths.info,
+    element: <InformationAboutWishlists />,
   },
 ]);
 

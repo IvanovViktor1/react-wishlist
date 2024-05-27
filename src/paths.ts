@@ -1,9 +1,8 @@
 export const Paths = {
   home: "/",
   lists: "/lists",
-  lists2: "/lists2",
+  allWishs: "/allWishs",
   register: "/register",
   login: "/login",
-  frends: "/frends",
-  frend: "/frend",
+  info: "/info",
 };

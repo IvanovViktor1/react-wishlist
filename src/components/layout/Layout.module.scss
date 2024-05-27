@@ -4,33 +4,35 @@
   width: 100%;
   height: 100%;
   margin-inline: auto;
-  overflow-y: scroll;
+  // overflow-y: scroll;
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  &::-webkit-scrollbar {
-    width: 8px; // ширина скроллбара
-  }
+  // &::-webkit-scrollbar {
+  //   // position: absolute;
+  //   // z-index: 9999999999;
+  //   width: 8px; // ширина скроллбара
+  // }
 
-  // Стилизация дорожки скроллбара
-  &::-webkit-scrollbar-track {
-    background: transparent; // цвет фона дорожки
-  }
+  // // Стилизация дорожки скроллбара
+  // &::-webkit-scrollbar-track {
+  //   background: black; // цвет фона дорожки
+  // }
 
-  // Стилизация ползунка скроллбара
-  &::-webkit-scrollbar-thumb {
-    background-color: rgb(109, 109, 109); // цвет ползунка
-    border-radius: 8px; // закругление углов ползунка
-    // border: 1px solid orange; // рамка вокруг ползунка
-  }
+  // // Стилизация ползунка скроллбара
+  // &::-webkit-scrollbar-thumb {
+  //   background-color: rgb(109, 109, 109); // цвет ползунка
+  //   border-radius: 8px; // закругление углов ползунка
+  //   // border: 1px solid orange; // рамка вокруг ползунка
+  // }
 
-  // Стилизация ползунка при наведении
-  &::-webkit-scrollbar-thumb:hover {
-    cursor: grab;
-    background-color: rgb(213, 213, 213);
-    // background-color: #555; // цвет ползунка при наведении
-  }
+  // // Стилизация ползунка при наведении
+  // &::-webkit-scrollbar-thumb:hover {
+  //   cursor: grab;
+  //   background-color: rgb(213, 213, 213);
+  //   // background-color: #555; // цвет ползунка при наведении
+  // }
 
   .content {
     // margin-top: 40px;
@@ -58,7 +60,7 @@
 
 @media only screen and (max-width: 600px) {
   .main {
-    padding-inline: 5px;
+    // padding-inline: 5px;
     width: 100%; // Ширина контейнера для мобильных устройств
   }
 }

@@ -1,18 +1,268 @@
-.containerLists {
+.filterContainer {
+  width: 100%;
+  height: 50px;
+  backdrop-filter: blur(10px);
+  background-color: rgba(132, 197, 253, 0.15);
+  border-radius: 0 0 10px 10px;
   display: flex;
-  flex-direction: column;
-  height: 100%;
 
-  .listsBlock {
-    z-index: 9;
-    margin-top: 50px;
-    background-color: rgba(0, 0, 0, 0.384);
-    backdrop-filter: blur(10px);
-    width: 100%;
+  @media only screen and (max-width: 900px) {
+    height: max-content;
+  }
+
+  .listsOptions,
+  .wishsOptions,
+  .listsOptionsSelected,
+  .wishsOptionsSelected {
+    padding-block: 10px;
+    padding-inline: 20px;
     display: flex;
-    // height: 100%;
-    flex-direction: column;
     align-items: center;
-    // gap: 10px;
+    width: 40%;
+    height: 100%;
+    background-color: rgba(35, 109, 173, 0.476);
+    gap: 45px;
+
+    @media only screen and (max-width: 900px) {
+      width: 35%;
+      font-size: small;
+    }
+
+    // .btnCreate,
+    .btnEdit,
+    .btnStopEdit,
+    .btnRemove {
+      cursor: default;
+      color: gray;
+    }
+    .btnCreate,
+    .btnCreateOpen {
+      transition: all 0.3s;
+      cursor: pointer;
+      &:hover {
+        transform: scale(1.5);
+        color: rgb(8, 255, 66);
+      }
+    }
+    .btnCreateOpen {
+      cursor: pointer;
+      transform: scale(1.5);
+      color: rgb(8, 255, 66);
+      &:hover {
+        // transform: scale(1);
+        color: white;
+      }
+    }
+
+    @media only screen and (max-width: 900px) {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+  .wishsOptions,
+  .wishsOptionsSelected {
+    width: 60%;
+    background-color: rgba(44, 21, 134, 0.499);
+    @media only screen and (max-width: 900px) {
+      width: 75%;
+    }
+  }
+  .listsOptionsSelected,
+  .wishsOptionsSelected {
+    .btnCreate,
+    .btnEdit,
+    .btnRemove {
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s;
+      &:hover {
+        transform: scale(1.5);
+      }
+    }
+    .btnStopEdit {
+      cursor: pointer;
+      color: rgb(8, 243, 255);
+      transform: scale(1.5);
+      transition: all 0.3s;
+      &:hover {
+        color: white;
+      }
+    }
+    .btnCreate {
+      &:hover {
+        color: rgb(8, 255, 66);
+      }
+    }
+    .btnEdit {
+      &:hover {
+        color: rgb(8, 243, 255);
+      }
+    }
+    .btnRemove {
+      &:hover {
+        color: rgb(255, 8, 33);
+      }
+    }
+  }
+  // justify-content: space-between;
+}
+
+.listsBlock {
+  display: flex;
+  padding-inline: 20px;
+  gap: 20px;
+  width: 100%;
+  font-size: larger;
+  margin-top: 2%;
+
+  @media only screen and (max-width: 900px) {
+    font-size: small;
+    padding-inline: 10px;
+    gap: 5px;
+  }
+  @media only screen and (max-width: 500px) {
+    font-size: x-small;
+    padding-inline: 2px;
+    gap: 3px;
+  }
+
+  h2 {
+    background-color: transparent;
+    color: white;
+  }
+  p {
+    background-color: transparent;
+  }
+  span {
+    color: rgb(0, 105, 197);
+    background-color: transparent;
+  }
+  color: rgba(255, 255, 255, 0.688);
+
+  .sheetsList {
+    font-size: larger;
+    padding-block: 10px;
+    padding-inline: 2px;
+    border-radius: 10px;
+    backdrop-filter: blur(30px);
+    background-color: rgba(0, 0, 0, 0.157);
+    width: 40%;
+    height: 70%;
+    @media only screen and (max-width: 900px) {
+      width: 35%;
+      padding-inline: 0px;
+    }
+
+    .list,
+    .listCurrent {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background-color 0.1s;
+      padding-inline: 10px;
+      padding-block: 2px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.085);
+      }
+      .date_of_creationList {
+        font-size: small;
+        color: gray;
+        @media only screen and (max-width: 500px) {
+          font-size: xx-small;
+        }
+      }
+    }
+    .listCurrent {
+      color: white;
+      background-color: rgba(34, 74, 109, 0.576);
+      &:hover {
+        background-color: rgba(34, 74, 109, 0.872);
+      }
+    }
+  }
+
+  .cardWithDescription {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    padding: 15px;
+    backdrop-filter: blur(10px);
+    background-color: rgba(208, 238, 255, 0.142);
+    width: 60%;
+    max-width: 60%;
+    gap: 15px;
+    @media only screen and (max-width: 900px) {
+      padding: 5px;
+      width: 75%;
+      max-width: 75%;
+    }
+
+    .titleRow {
+      display: flex;
+      justify-content: space-between;
+      span {
+        color: gray;
+      }
+    }
+    .descriptionText {
+      color: rgba(255, 255, 255, 0.688);
+    }
+
+    .wishs {
+      transition: height 0.2s;
+      display: flex;
+      flex-direction: column;
+      border-radius: 10px;
+      backdrop-filter: blur(20px);
+      background-color: rgba(0, 0, 0, 0.652);
+      padding: 5px;
+      height: 100px;
+      overflow-y: auto;
+      gap: 3px;
+      .wish,
+      .wishCurrent {
+        // padding-block: 3px;
+        cursor: pointer;
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.085);
+        }
+      }
+
+      .wishCurrent {
+        color: white;
+        background-color: rgba(186, 223, 255, 0.264);
+        &:hover {
+          background-color: rgba(186, 223, 255, 0.472);
+        }
+      }
+    }
+
+    .wishs,
+    .cardWishInfo {
+      &::-webkit-scrollbar {
+        width: 8px; // ширина скроллбара
+      }
+
+      // Стилизация дорожки скроллбара
+      &::-webkit-scrollbar-track {
+        background: black; // цвет фона дорожки
+      }
+
+      // Стилизация ползунка скроллбара
+      &::-webkit-scrollbar-thumb {
+        background-color: rgb(109, 109, 109); // цвет ползунка
+        border-radius: 8px; // закругление углов ползунка
+        // border: 1px solid orange; // рамка вокруг ползунка
+      }
+
+      // Стилизация ползунка при наведении
+      &::-webkit-scrollbar-thumb:hover {
+        cursor: grab;
+        background-color: rgb(213, 213, 213);
+        // background-color: #555; // цвет ползунка при наведении
+      }
+    }
   }
 }

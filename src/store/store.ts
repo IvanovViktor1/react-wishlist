@@ -1,5 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import userReducer from "./reducers/userSlice";
+import wishReducer from "./reducers/wishsSlice";
 import sortAndFilterReducer from "./reducers/sortAndFilterSlice";
 import { sessionApi } from "../services/SessionService";
 import { wishlistApi } from "../services/ListService";
@@ -9,6 +10,7 @@ import { frendsApi } from "../services/FrendService";
 export const rootReducer = combineReducers({
   userReducer,
   sortAndFilterReducer,
+  wishReducer,
   [sessionApi.reducerPath]: sessionApi.reducer,
   [frendsApi.reducerPath]: frendsApi.reducer,
   [wishlistApi.reducerPath]: wishlistApi.reducer,

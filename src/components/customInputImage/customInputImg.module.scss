@@ -23,31 +23,16 @@
       color: yellow;
     }
     .imgBlock {
-      // width: 300px;
-      // display: flex;
-      // height: 300px;
-      // justify-content: center;
-      // align-items: center;
-      // overflow: hidden;
-      // gap: 5px;
       overflow: hidden;
       padding: 5px;
       display: contents;
       width: 200px;
       height: 200px;
       background-color: white;
-      // overflow: hidden;
-      // padding: 5px;
-      // display: inline-flex;
-      // width: 200px;
-      // height: 200px;
-      // background-color: white;
-      // align-items: center;
-      // justify-content: center;
-      // // border-radius: 100px;
+
       img {
         width: 200px;
-        height: 200px;
+        // height: 200px;
       }
       .btnClear {
         position: absolute;

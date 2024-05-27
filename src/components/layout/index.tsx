@@ -3,6 +3,7 @@ import { Layout as AntdLayout } from "antd";
 import styles from "./Layout.module.scss";
 import Header from "../header";
 import OptionsDrawer from "../options";
+import { sessionApi } from "../../services/SessionService";
 
 type Props = {
   children: React.ReactNode;
@@ -13,9 +14,7 @@ export const Layout: FC<Props> = ({ children }) => {
     <div className={styles.main}>
       <Header />
 
-      {/* <AntdLayout.Content className={styles.content}> */}
       <div className={styles.content}>{children}</div>
-      {/* </AntdLayout.Content> */}
     </div>
   );
 };

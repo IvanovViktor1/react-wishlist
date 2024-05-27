@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import { UseFormRegister } from "react-hook-form";
 import styles from "./customInputImg.module.scss";
-import { DeleteOutlined } from "@ant-design/icons";
+import { CloseOutlined, DeleteOutlined } from "@ant-design/icons";
 
 export interface InputElementProps {
   value?: string;
@@ -66,21 +66,16 @@ const ImageInput = forwardRef<HTMLTextAreaElement, InputElementProps>(
         )}
         {isValid && !props.disabled ? (
           <div className={styles.previewBlock}>
-            {/* <span>Предварительный просмотр:</span> */}
             <div className={styles.imgBlock}>
-              <img
-                src={props.value}
-                alt="Loaded"
-                // style={{ maxWidth: "100%", maxHeight: "400px" }}
-              />
-              <DeleteOutlined
+              <img src={props.value} alt="Loaded" />
+              <CloseOutlined
                 className={styles.btnClear}
                 onClick={handleRemoveImage}
               />
             </div>
           </div>
         ) : null}
-        {!isValid && props.value && <p>Invalid image URL. Please try again.</p>}
+        {!isValid && props.value && <p>Не корректный URL</p>}
       </div>
     );
   }

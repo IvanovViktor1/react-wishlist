@@ -1,7 +1,12 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IUser } from "../../models/IUser";
 import { AuthError, Session, User } from "@supabase/supabase-js";
-import { IResponseRegister, sessionApi } from "../../services/SessionService";
+import {
+  IResponseRegister,
+  TResponseCurrentUserInfo,
+  TUser,
+  sessionApi,
+} from "../../services/SessionService";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 export type ISession = {
@@ -10,14 +15,14 @@ export type ISession = {
 };
 
 interface UserState {
-  users: IUser[] | null;
+  user: TUser | null;
   session: Session | null;
   isLoading: boolean;
   error: string | FetchBaseQueryError | AuthError | null | undefined;
 }
 
 const initialState: UserState = {
-  users: [],
+  user: null,
   session: null,
   isLoading: false,
   error: "",
@@ -37,10 +42,12 @@ export const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addMatcher(
+      // _________________________________
+      // ______________signIn_____________
+      // _________________________________
       sessionApi.endpoints.signIn.matchFulfilled,
       (state, action: PayloadAction<ISession>) => {
         state.session = action.payload.session;
-
         state.error = "";
       }
     );
@@ -51,38 +58,57 @@ export const userSlice = createSlice({
         state.error = action.error.message;
       }
     );
+    // _________________________________
+    // _________getUserSession__________
+    // _________________________________
     builder.addMatcher(
-      sessionApi.endpoints.getUserSession.matchFulfilled,
-      (state, action: PayloadAction<Session>) => {
+      sessionApi.endpoints.getCurrentUserInfo.matchFulfilled,
+      (state, action: PayloadAction<TResponseCurrentUserInfo>) => {
         state.isLoading = false;
-        state.session = action.payload;
-        if (!action.payload) {
+        if (action.payload) {
+          state.session = action.payload.session;
+          state.user = action.payload.user;
+        } else {
           console.log("Session not found");
+          state.session = null;
+          state.user = null;
         }
       }
     );
     builder.addMatcher(
-      sessionApi.endpoints.getUserSession.matchRejected,
+      sessionApi.endpoints.getCurrentUserInfo.matchRejected,
       (state, action) => {
         state.isLoading = false;
         state.session = null;
-        state.error = action.error.message;
+        state.user = null;
+        state.error = action.error?.message || "An unknown error occurred";
       }
     );
+    // _________________________________
+    // __________customRegister_________
+    // _________________________________
     builder.addMatcher(
       sessionApi.endpoints.customRegister.matchFulfilled,
       (state, action: PayloadAction<IResponseRegister>) => {
-        state.session = action.payload.session;
-
-        state.error = "";
+        state.isLoading = false;
+        if (action.payload) {
+          state.session = action.payload.session;
+          state.user = action.payload.user;
+          state.error = "";
+        } else {
+          console.log("Register data not found");
+          state.session = null;
+          state.user = null;
+        }
       }
     );
     builder.addMatcher(
       sessionApi.endpoints.customRegister.matchRejected,
       (state, action) => {
+        state.isLoading = false;
         state.session = null;
-
-        state.error = action.error.message;
+        state.user = null;
+        state.error = action.error?.message || "An unknown error occurred";
       }
     );
   },

@@ -1,0 +1,199 @@
+.mainBlock {
+  width: 80%;
+  overflow: hidden;
+  // background-color: rgba(51, 35, 35, 0.939);
+
+  .titleBlock {
+    display: flex;
+    width: 100%;
+    margin-top: 3px;
+    justify-content: space-around;
+    // margin-left: 20em;
+    &:hover {
+      background-color: rgba(240, 248, 255, 0.266);
+    }
+
+    .titleText {
+      width: 60%;
+      span {
+        cursor: pointer;
+      }
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      .btnEye,
+      .btnSave,
+      .btnEdit,
+      .btnReset,
+      .btnDelete {
+        transform: scale(1.3);
+        cursor: pointer;
+        color: rgb(47, 227, 255);
+        transition: transform 0.3s;
+        &:hover {
+          transform: scale(1.6);
+        }
+      }
+    }
+  }
+  .descContainerUnvisible {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.3s;
+  }
+  .descContainer {
+    width: 100%;
+    height: min-content;
+    transition: height 0.3s;
+    display: flex;
+    background-color: rgb(8, 32, 56);
+    overflow-x: hidden;
+    padding: 10px;
+    flex-direction: column;
+    // @media only screen and (max-width: 750px) {
+    //   flex-direction: column;
+    //   align-items: center;
+    // }
+
+    .firstRow {
+      display: flex;
+      flex-direction: row;
+
+      .image {
+        overflow: hidden;
+        padding: 5px;
+        display: contents;
+        width: 200px;
+        height: 200px;
+        background-color: white;
+        // overflow: hidden;
+        // padding: 5px;
+        // display: inline-flex;
+        // width: 200px;
+        // height: 200px;
+        // background-color: white;
+        // align-items: center;
+        // justify-content: center;
+        // // border-radius: 100px;
+        img {
+          width: 200px;
+          height: 200px;
+        }
+      }
+      .inputRows {
+        width: 100%;
+        padding: 10px;
+        textArea {
+          resize: vertical;
+        }
+
+        // .btnEditBlock {
+        //   background-color: rgba(0, 255, 255, 0.213);
+        //   width: 100%;
+        //   display: flex;
+        //   justify-content: space-between;
+        //   margin-top: -30px;
+
+        //   .btnSave,
+        //   .btnReset {
+        //     margin-inline: 10px;
+        //     cursor: pointer;
+        //     padding: 5px;
+        //     font-size: large;
+        //     color: white;
+        //     border-radius: 8px;
+        //     border: 1px solid transparent;
+        //     background-color: green;
+        //     &:hover {
+        //       transition: filter 0.3s;
+        //       filter: brightness(70%);
+        //     }
+        //   }
+        //   .btnReset {
+        //     background-color: rgb(0, 35, 148);
+        //   }
+
+        //   .btnEdit,
+        //   .btnEditIsDisabled {
+        //     cursor: pointer;
+        //     color: greenyellow;
+        //     transition: transform 0.3s;
+        //   }
+        //   .btnEdit {
+        //     transform: scale(1.6);
+        //   }
+        //   .btnEditIsDisabled {
+        //     transform: scale(1.2);
+        //     filter: contrast(40%);
+        //   }
+        // }
+
+        .placeholder {
+          margin-top: 8px;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 10px;
+          .btnCopy {
+            cursor: pointer;
+            font-size: small;
+          }
+          p {
+            background-color: transparent;
+            font-size: medium;
+            color: var(--border-color-search-block);
+          }
+        }
+        .input {
+          font-size: large;
+          border-radius: 5px;
+          width: 100%;
+          padding: 5px;
+          background-color: black;
+          color: white;
+        }
+        .error {
+          color: yellow;
+          font-size: medium;
+        }
+      }
+    }
+    .secondRow {
+      display: flex;
+      flex-direction: column;
+      textArea {
+        resize: vertical;
+      }
+      .placeholder {
+        margin-top: 8px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+        .btnCopy {
+          cursor: pointer;
+          font-size: small;
+        }
+        p {
+          background-color: transparent;
+          font-size: medium;
+          color: var(--border-color-search-block);
+        }
+      }
+      .input {
+        font-size: large;
+        border-radius: 5px;
+        width: 100%;
+        padding: 5px;
+        background-color: black;
+        color: white;
+      }
+      .error {
+        color: yellow;
+        font-size: medium;
+      }
+    }
+  }
+}
